@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Xcode user settings
+*.xcuserstate
+xcuserdata/
+
+# Build output
+build/
+DerivedData/
+
+# Swift Package Manager
+.swiftpm/
+
+# Secrets
+.env
+*.env
