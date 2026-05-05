@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		E01EC1FD2FA9E79D00A3E4B7 /* CampusLost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CampusLost.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E01EC2152FA9EDB400A3E4B7 /* CampusLost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CampusLost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		E01EC1FF2FA9E79D00A3E4B7 /* CampusLost */ = {
+		E01EC2172FA9EDB400A3E4B7 /* CampusLost */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = CampusLost;
 			sourceTree = "<group>";
@@ -19,7 +19,7 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E01EC1FA2FA9E79D00A3E4B7 /* Frameworks */ = {
+		E01EC2122FA9EDB400A3E4B7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -29,18 +29,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E01EC1F42FA9E79D00A3E4B7 = {
+		E01EC20C2FA9EDB400A3E4B7 = {
 			isa = PBXGroup;
 			children = (
-				E01EC1FF2FA9E79D00A3E4B7 /* CampusLost */,
-				E01EC1FE2FA9E79D00A3E4B7 /* Products */,
+				E01EC2172FA9EDB400A3E4B7 /* CampusLost */,
+				E01EC2162FA9EDB400A3E4B7 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		E01EC1FE2FA9E79D00A3E4B7 /* Products */ = {
+		E01EC2162FA9EDB400A3E4B7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E01EC1FD2FA9E79D00A3E4B7 /* CampusLost.app */,
+				E01EC2152FA9EDB400A3E4B7 /* CampusLost.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,64 +48,64 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E01EC1FC2FA9E79D00A3E4B7 /* CampusLost */ = {
+		E01EC2142FA9EDB400A3E4B7 /* CampusLost */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E01EC2082FA9E79F00A3E4B7 /* Build configuration list for PBXNativeTarget "CampusLost" */;
+			buildConfigurationList = E01EC2202FA9EDB600A3E4B7 /* Build configuration list for PBXNativeTarget "CampusLost" */;
 			buildPhases = (
-				E01EC1F92FA9E79D00A3E4B7 /* Sources */,
-				E01EC1FA2FA9E79D00A3E4B7 /* Frameworks */,
-				E01EC1FB2FA9E79D00A3E4B7 /* Resources */,
+				E01EC2112FA9EDB400A3E4B7 /* Sources */,
+				E01EC2122FA9EDB400A3E4B7 /* Frameworks */,
+				E01EC2132FA9EDB400A3E4B7 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				E01EC1FF2FA9E79D00A3E4B7 /* CampusLost */,
+				E01EC2172FA9EDB400A3E4B7 /* CampusLost */,
 			);
 			name = CampusLost;
 			packageProductDependencies = (
 			);
 			productName = CampusLost;
-			productReference = E01EC1FD2FA9E79D00A3E4B7 /* CampusLost.app */;
+			productReference = E01EC2152FA9EDB400A3E4B7 /* CampusLost.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		E01EC1F52FA9E79D00A3E4B7 /* Project object */ = {
+		E01EC20D2FA9EDB400A3E4B7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
-					E01EC1FC2FA9E79D00A3E4B7 = {
+					E01EC2142FA9EDB400A3E4B7 = {
 						CreatedOnToolsVersion = 26.2;
 					};
 				};
 			};
-			buildConfigurationList = E01EC1F82FA9E79D00A3E4B7 /* Build configuration list for PBXProject "CampusLost" */;
+			buildConfigurationList = E01EC2102FA9EDB400A3E4B7 /* Build configuration list for PBXProject "CampusLost" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = E01EC1F42FA9E79D00A3E4B7;
+			mainGroup = E01EC20C2FA9EDB400A3E4B7;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = E01EC1FE2FA9E79D00A3E4B7 /* Products */;
+			productRefGroup = E01EC2162FA9EDB400A3E4B7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E01EC1FC2FA9E79D00A3E4B7 /* CampusLost */,
+				E01EC2142FA9EDB400A3E4B7 /* CampusLost */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		E01EC1FB2FA9E79D00A3E4B7 /* Resources */ = {
+		E01EC2132FA9EDB400A3E4B7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -115,7 +115,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		E01EC1F92FA9E79D00A3E4B7 /* Sources */ = {
+		E01EC2112FA9EDB400A3E4B7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -125,7 +125,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		E01EC2062FA9E79F00A3E4B7 /* Debug */ = {
+		E01EC21E2FA9EDB600A3E4B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -188,7 +188,7 @@
 			};
 			name = Debug;
 		};
-		E01EC2072FA9E79F00A3E4B7 /* Release */ = {
+		E01EC21F2FA9EDB600A3E4B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -244,7 +244,7 @@
 			};
 			name = Release;
 		};
-		E01EC2092FA9E79F00A3E4B7 /* Debug */ = {
+		E01EC2212FA9EDB600A3E4B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -275,7 +275,7 @@
 			};
 			name = Debug;
 		};
-		E01EC20A2FA9E79F00A3E4B7 /* Release */ = {
+		E01EC2222FA9EDB600A3E4B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -309,25 +309,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E01EC1F82FA9E79D00A3E4B7 /* Build configuration list for PBXProject "CampusLost" */ = {
+		E01EC2102FA9EDB400A3E4B7 /* Build configuration list for PBXProject "CampusLost" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E01EC2062FA9E79F00A3E4B7 /* Debug */,
-				E01EC2072FA9E79F00A3E4B7 /* Release */,
+				E01EC21E2FA9EDB600A3E4B7 /* Debug */,
+				E01EC21F2FA9EDB600A3E4B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E01EC2082FA9E79F00A3E4B7 /* Build configuration list for PBXNativeTarget "CampusLost" */ = {
+		E01EC2202FA9EDB600A3E4B7 /* Build configuration list for PBXNativeTarget "CampusLost" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E01EC2092FA9E79F00A3E4B7 /* Debug */,
-				E01EC20A2FA9E79F00A3E4B7 /* Release */,
+				E01EC2212FA9EDB600A3E4B7 /* Debug */,
+				E01EC2222FA9EDB600A3E4B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = E01EC1F52FA9E79D00A3E4B7 /* Project object */;
+	rootObject = E01EC20D2FA9EDB400A3E4B7 /* Project object */;
 }
