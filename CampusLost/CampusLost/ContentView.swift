@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("selectedUniversity") private var selectedUniversity: String = ""
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        if selectedUniversity.isEmpty {
+            OnBoardingView()
+        } else {
+            MainTabView()
         }
-        .padding()
     }
 }
 
