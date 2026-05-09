@@ -6,37 +6,24 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AddReportView: View {
+    
+    @Environment(\.modelContext) private var modelContext
+    
+    @StateObject var viewModel: AddReportViewModel
+    
+    @AppStorage("localUserID") private var localUserID = ""
+    @AppStorage("selectedUniversity") private var selectedUniversityRawValue = University.uts.rawValue
+    
+    private var selectedUniversity: University {
+        University(rawValue: selectedUniversityRawValue) ?? .uts
+    }
 
-    @State private var title = ""
-    @State private var reportType = "Lost"
-    @State private var category = "Electronics"
-    @State private var location = "UTS Library"
-    @State private var description = ""
-    @State private var contact = ""
-
-    let reportTypes = ["Lost", "Found"]
-    let categories = [
-        "Electronics",
-        "Cards/ID",
-        "Clothing",
-        "Books/Stationery",
-        "Bottles",
-        "Keys",
-        "Bags",
-        "Other"
-    ]
-
-    let locations = [
-        "UTS Library",
-        "Building 1",
-        "Building 2",
-        "Building 10",
-        "Building 11",
-        "Alumni Green",
-        "Central Station area"
-    ]
+    private var locations: [CampusLocation]{ CampusLocationData.locations(for: selectedUniversity)
+    }
+   
 
     var body: some View {
 
@@ -46,43 +33,43 @@ struct AddReportView: View {
 
                 Section("Item Information") {
 
-                    TextField("Item title", text: $title)
+                    TextField("Item title", text: $viewModel.title)
 
-                    Picker("Report Type", selection: $reportType) {
-                        ForEach(reportTypes, id: \.self) { type in
-                            Text(type)
+                    Picker("Report Type", selection: $viewModel.reportType) {
+                        ForEach(ReportType.allCases, id: \.self) { type in
+                            Text(type.rawValue)
+                                .tag(type)
                         }
                     }
 
-                    Picker("Category", selection: $category) {
-                        ForEach(categories, id: \.self) { category in
-                            Text(category)
+                    Picker("Category", selection: $viewModel.category) {
+                        ForEach(ItemCategory.allCases, id: \.self) { category in
+                            Text(category.rawValue)
+                                .tag(category)
                         }
                     }
 
-                    Picker("Location", selection: $location) {
+                    Picker("Location", selection: $viewModel.location) {
                         ForEach(locations, id: \.self) { location in
-                            Text(location)
+                            Text(location.name)
+                                .tag(location.name)
                         }
                     }
                 }
 
                 Section("Details") {
-                    TextField("Description", text: $description, axis: .vertical)
+                    TextField("Description", text: $viewModel.description, axis: .vertical)
                         .lineLimit(4)
 
-                    TextField("Contact info", text: $contact)
+                    TextField("Contact info", text: $viewModel.contact)
                         .keyboardType(.emailAddress)
                 }
 
                 Section {
                     Button {
-                        title = ""
-                        reportType = "Lost"
-                        category = "Electronics"
-                        location = "UTS Library"
-                        description = ""
-                        contact = ""
+                        
+                        _ = viewModel.submitReport(modelContext: modelContext, selectedUniversity: selectedUniversity, locations: locations, currentUserID: UserManager.getOrCreateUserID())
+                    
                     } label: {
                         Text("Submit Report")
                             .fontWeight(.semibold)
@@ -91,10 +78,16 @@ struct AddReportView: View {
                 }
             }
             .navigationTitle("Add Report")
+            .onAppear {
+                viewModel.fillLocation(locations: locations)
+            }
         }
     }
+    
+   
+    
 }
 
 #Preview {
-    AddReportView()
+    AddReportView(viewModel: AddReportViewModel())
 }

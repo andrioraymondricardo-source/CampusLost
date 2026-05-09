@@ -19,7 +19,7 @@ struct MainTabView: View {
                     Text("Home")
                 }
 
-            AddReportView()
+            AddReportView(viewModel: AddReportViewModel())
                 .tabItem {
                     Image(systemName: "plus.circle.fill")
                     Text("Add")

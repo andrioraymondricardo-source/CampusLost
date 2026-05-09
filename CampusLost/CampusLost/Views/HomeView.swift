@@ -20,6 +20,7 @@ struct SampleItem: Identifiable {
 
 struct HomeView: View {
 
+    @StateObject private var filterViewModel = ItemFilterViewModel()
     @State private var searchText = ""
     @State private var selectedFilter = "All"
 

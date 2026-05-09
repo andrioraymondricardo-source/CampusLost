@@ -15,6 +15,12 @@ struct CampusLocationData {
     static let locations: [CampusLocation] = [
         CampusLocation(
             university: .uts,
+            name: "UTS",
+            latitude: -33.88326180111422,
+            longitude: 151.20061189923524
+        ),
+        CampusLocation(
+            university: .uts,
             name: "UTS Library",
             latitude: -33.8832,
             longitude: 151.2009

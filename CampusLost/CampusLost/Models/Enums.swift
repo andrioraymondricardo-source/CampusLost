@@ -41,6 +41,18 @@ enum ItemCategory: String, Codable, CaseIterable, Identifiable {
     case other = "Other"
     
     var id: String {rawValue}
+    
+    var iconName: String{
+        switch self{
+        case .electronics: return "laptopcomputer"
+        case .cards: return "person.text.rectangle"
+        case .clothing: return "tshirt"
+        case .books: return "book"
+        case .keys: return "key"
+        case .bags: return "bag"
+        case .other: return "questionmark.circle"
+        }
+    }
 }
 
 //current state of report

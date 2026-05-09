@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct CampusLostApp: App {
@@ -13,5 +14,6 @@ struct CampusLostApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: LostFoundItem.self)
     }
 }
