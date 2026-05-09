@@ -6,63 +6,57 @@
 //
 
 import SwiftUI
-
-struct SampleItem: Identifiable {
-    let id = UUID()
-    let icon: String
-    let title: String
-    let type: String
-    let category: String
-    let location: String
-    let description: String
-    let contact: String
-}
+import SwiftData
 
 struct HomeView: View {
 
+    // gets all saved items from SwiftData
+    @Query private var items: [LostFoundItem]
+
     @State private var searchText = ""
+
     @State private var selectedFilter = "All"
 
-    let items = [
-        SampleItem(
-            icon: "headphones",
-            title: "AirPods Pro",
-            type: "Lost",
-            category: "Electronics",
-            location: "UTS Library",
-            description: "White AirPods Pro case lost near the study area around 2PM.",
-            contact: "andrio@student.uts.edu.au"
-        ),
-        SampleItem(
-            icon: "wallet.pass",
-            title: "Student ID Card",
-            type: "Found",
-            category: "Cards/ID",
-            location: "Building 10",
-            description: "Found student ID card near the entrance of Building 10.",
-            contact: "campuslost@student.uts.edu.au"
-        ),
-        SampleItem(
-            icon: "key.fill",
-            title: "Apartment Keys",
-            type: "Lost",
-            category: "Keys",
-            location: "Building 1",
-            description: "Lost a small key set with a black keychain.",
-            contact: "student@example.com"
-        )
-    ]
+    // filtered items based on tab and search
+    var filteredItems: [LostFoundItem] {
 
-    var filteredItems: [SampleItem] {
         items.filter { item in
-            let matchesFilter =
-            selectedFilter == "All" || item.type == selectedFilter
+
+            let matchesFilter: Bool
+
+            if selectedFilter == "All" {
+
+                matchesFilter = item.status == .active
+
+            } else if selectedFilter == "Lost" {
+
+                matchesFilter =
+                item.reportType == .lost &&
+                item.status == .active
+
+            } else if selectedFilter == "Found" {
+
+                matchesFilter =
+                item.reportType == .found &&
+                item.status == .active
+
+            } else if selectedFilter == "Resolved" {
+
+                matchesFilter =
+                item.status == .resolved
+
+            } else {
+
+                matchesFilter = true
+            }
 
             let matchesSearch =
+
             searchText.isEmpty ||
+
             item.title.localizedCaseInsensitiveContains(searchText) ||
-            item.category.localizedCaseInsensitiveContains(searchText) ||
-            item.location.localizedCaseInsensitiveContains(searchText)
+
+            item.locationName.localizedCaseInsensitiveContains(searchText)
 
             return matchesFilter && matchesSearch
         }
@@ -74,6 +68,7 @@ struct HomeView: View {
 
             ZStack {
 
+                // background gradient
                 LinearGradient(
                     colors: [
                         AppTheme.primary.opacity(0.15),
@@ -88,7 +83,9 @@ struct HomeView: View {
 
                     VStack(alignment: .leading, spacing: 20) {
 
+                        // page title
                         VStack(alignment: .leading, spacing: 8) {
+
                             Text("CampusLost")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
@@ -97,7 +94,9 @@ struct HomeView: View {
                                 .foregroundStyle(.secondary)
                         }
 
+                        // search bar
                         HStack {
+
                             Image(systemName: "magnifyingglass")
                                 .foregroundStyle(.secondary)
 
@@ -107,25 +106,59 @@ struct HomeView: View {
                         .background(.white)
                         .cornerRadius(AppTheme.cornerRadius)
 
-                        HStack(spacing: 12) {
-                            FilterButton(title: "All", selectedFilter: $selectedFilter)
-                            FilterButton(title: "Lost", selectedFilter: $selectedFilter)
-                            FilterButton(title: "Found", selectedFilter: $selectedFilter)
+                        // filter buttons
+                        ScrollView(.horizontal, showsIndicators: false) {
+
+                            HStack(spacing: 12) {
+
+                                FilterButton(
+                                    title: "All",
+                                    selectedFilter: $selectedFilter
+                                )
+
+                                FilterButton(
+                                    title: "Lost",
+                                    selectedFilter: $selectedFilter
+                                )
+
+                                FilterButton(
+                                    title: "Found",
+                                    selectedFilter: $selectedFilter
+                                )
+
+                                FilterButton(
+                                    title: "Resolved",
+                                    selectedFilter: $selectedFilter
+                                )
+                            }
                         }
 
-                        VStack(spacing: 16) {
-                            ForEach(filteredItems) { item in
-                                NavigationLink {
-                                    ItemDetailView(item: item)
-                                } label: {
-                                    ItemRowView(
-                                        icon: item.icon,
-                                        title: item.title,
-                                        subtitle: "\(item.type) • \(item.category)",
-                                        location: item.location
-                                    )
+                        // empty state
+                        if filteredItems.isEmpty {
+
+                            EmptyStateView()
+
+                        } else {
+
+                            VStack(spacing: 16) {
+
+                                ForEach(filteredItems) { item in
+
+                                    NavigationLink {
+
+                                        ItemDetailView(item: item)
+
+                                    } label: {
+
+                                        ItemRowView(
+                                            icon: iconForCategory(item.category),
+                                            title: item.title,
+                                            subtitle: "\(item.reportType.rawValue) • \(item.category.rawValue)",
+                                            location: item.locationName
+                                        )
+                                    }
+                                    .buttonStyle(.plain)
                                 }
-                                .buttonStyle(.plain)
                             }
                         }
                     }
@@ -134,17 +167,54 @@ struct HomeView: View {
             }
         }
     }
+
+    // converts category enum into SF Symbol icon
+    func iconForCategory(_ category: ItemCategory) -> String {
+
+        switch category {
+
+        case .electronics:
+            return "headphones"
+
+        case .cards:
+            return "wallet.pass"
+
+        case .clothing:
+            return "tshirt"
+
+        case .books:
+            return "book.closed"
+
+        case .bottles:
+            return "waterbottle"
+
+        case .keys:
+            return "key.fill"
+
+        case .bags:
+            return "bag.fill"
+
+        case .other:
+            return "questionmark.circle"
+        }
+    }
 }
 
+// reusable filter button
 struct FilterButton: View {
 
     let title: String
+
     @Binding var selectedFilter: String
 
     var body: some View {
+
         Button {
+
             selectedFilter = title
+
         } label: {
+
             Text(title)
                 .font(.subheadline)
                 .fontWeight(.semibold)
@@ -162,9 +232,35 @@ struct FilterButton: View {
                 )
                 .cornerRadius(30)
         }
+        .animation(.smooth, value: selectedFilter)
+    }
+}
+
+// empty search/filter result state
+struct EmptyStateView: View {
+
+    var body: some View {
+
+        VStack(spacing: 12) {
+
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 42))
+                .foregroundStyle(.secondary)
+
+            Text("No items found")
+                .font(.headline)
+
+            Text("Try another keyword or change the filter.")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 80)
     }
 }
 
 #Preview {
+
     HomeView()
 }

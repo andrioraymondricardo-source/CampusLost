@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+
     @AppStorage("selectedUniversity") private var selectedUniversity: String = ""
 
     var body: some View {
