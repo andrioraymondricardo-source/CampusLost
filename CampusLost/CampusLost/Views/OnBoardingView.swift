@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct OnBoardingView: View {
+    @Binding var hasSelectedSessionUniversity:Bool
 
     @AppStorage("selectedUniversity") private var selectedUniversity: String = ""
 
-    @State private var chosenUniversity = "University of Technology Sydney"
+    @State private var chosenUniversity = ""
+    @State private var showUniversityError = false
 
-    let universities = [
-        "University of Technology Sydney",
-        "University of Sydney",
-        "UNSW Sydney"
-    ]
+    let universities = University.allCases
 
     var body: some View {
 
@@ -56,7 +54,8 @@ struct OnBoardingView: View {
 
                     Picker("University", selection: $chosenUniversity) {
                         ForEach(universities, id: \.self) { university in
-                            Text(university)
+                            Text(university.rawValue)
+                                .tag(university.rawValue)
                         }
                     }
                     .pickerStyle(.menu)
@@ -67,7 +66,14 @@ struct OnBoardingView: View {
                 }
 
                 Button {
-                    selectedUniversity = chosenUniversity
+                    if chosenUniversity.isEmpty {
+                        showUniversityError = true
+                    }else
+                    {
+                        showUniversityError = false
+                        selectedUniversity = chosenUniversity
+                        hasSelectedSessionUniversity = true
+                    }
                 } label: {
                     Text("Continue")
                         .fontWeight(.semibold)
@@ -76,6 +82,9 @@ struct OnBoardingView: View {
                         .padding()
                         .background(AppTheme.primary)
                         .cornerRadius(AppTheme.cornerRadius)
+                }
+                .alert("Please pick a university.", isPresented: $showUniversityError){
+                    Button("OK", role: .cancel){}
                 }
 
                 Spacer()
@@ -86,5 +95,5 @@ struct OnBoardingView: View {
 }
 
 #Preview {
-    OnBoardingView()
+    OnBoardingView(hasSelectedSessionUniversity: .constant(false))
 }

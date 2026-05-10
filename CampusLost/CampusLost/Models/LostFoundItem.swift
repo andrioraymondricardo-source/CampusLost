@@ -6,14 +6,13 @@
 //
 
 import Foundation
-import SwiftData
 
 //data model for lost & found item reports
 
-@Model
-final class LostFoundItem {
+struct LostFoundItem : Identifiable, Codable, Equatable {
     
     //basic item info
+    let id: UUID
     var title: String
     var itemDescription: String
     
@@ -41,6 +40,7 @@ final class LostFoundItem {
     
     //initialiser
     init(
+            id: UUID = UUID(),
             title: String,
             itemDescription: String,
             reportType: ReportType,
@@ -54,6 +54,7 @@ final class LostFoundItem {
             contact: String,
             createdByUserID: String
         ) {
+            self.id = id
             self.title = title
             self.itemDescription = itemDescription
             self.reportType = reportType

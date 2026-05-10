@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftData
 import Combine
 
 final class AddReportViewModel: ObservableObject {
@@ -26,10 +25,8 @@ final class AddReportViewModel: ObservableObject {
     }
     
     func submitReport(
-        modelContext: ModelContext,
         selectedUniversity: University,
-        locations: [CampusLocation],
-        currentUserID: String
+        locations: [CampusLocation]
     ) -> Bool {
         let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedDescription = description.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -72,18 +69,9 @@ final class AddReportViewModel: ObservableObject {
             createdByUserID: creatorID
         )
         
-        modelContext.insert(newItem)
+        LostFoundStorageManager().addItem(newItem)
+        return true
         
-        do{
-            try modelContext.save()
-            errorMessage = ""
-            clearForm(defaultLocationName: locations[0].name)
-            return true
-        }catch{
-            errorMessage = "Failed to save report. Please try again."
-            print("Failed to save report: \(error.localizedDescription)")
-            return false
-        }
     }
     
     private func clearForm(defaultLocationName: String) {

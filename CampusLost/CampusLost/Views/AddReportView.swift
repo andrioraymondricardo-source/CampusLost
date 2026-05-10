@@ -6,11 +6,8 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct AddReportView: View {
-    
-    @Environment(\.modelContext) private var modelContext
     
     @StateObject var viewModel: AddReportViewModel
     
@@ -68,7 +65,7 @@ struct AddReportView: View {
                 Section {
                     Button {
                         
-                        _ = viewModel.submitReport(modelContext: modelContext, selectedUniversity: selectedUniversity, locations: locations, currentUserID: UserManager.getOrCreateUserID())
+                        _ = viewModel.submitReport(selectedUniversity: selectedUniversity, locations: locations)
                     
                     } label: {
                         Text("Submit Report")
