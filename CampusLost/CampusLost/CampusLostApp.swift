@@ -15,6 +15,5 @@ struct CampusLostApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: LostFoundItem.self)
     }
 }

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct ItemDetailView: View {
 
@@ -56,7 +55,6 @@ struct ItemDetailView: View {
                 )
             }
             .padding()
-            .padding(.bottom, 100)
         }
         .background(AppTheme.background)
         .navigationTitle("Item Details")
@@ -102,22 +100,18 @@ struct DetailCard: View {
 
 #Preview {
 
-    let sampleItem = LostFoundItem(
-        title: "AirPods Pro",
-        itemDescription: "White AirPods Pro case lost near the study area around 2PM.",
-        reportType: .lost,
-        category: .electronics,
-        status: .active,
-        university: .uts,
-        locationName: "UTS Library",
-        latitude: -33.8832,
-        longitude: 151.2009,
-        contact: "andrio@student.uts.edu.au",
-        createdByUserID: "preview-user"
+    ItemDetailView(
+        item: LostFoundItem(
+            title: "AirPods Pro",
+            itemDescription: "White AirPods Pro case lost near the study area around 2PM.",
+            reportType: .lost,
+            category: .electronics,
+            status: .active,
+            university: .uts,
+            locationName: "UTS Library",
+            latitude: -33.88326180111422,
+            longitude: 151.20061189923524,
+            contact: "andrio@student.uts.edu.au",
+            createdByUserID: "preview-user")
     )
-
-    NavigationStack {
-        ItemDetailView(item: sampleItem)
-    }
-    .modelContainer(for: LostFoundItem.self, inMemory: true)
 }

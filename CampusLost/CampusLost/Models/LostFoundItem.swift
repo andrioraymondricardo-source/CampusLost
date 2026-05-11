@@ -15,19 +15,27 @@ struct LostFoundItem : Identifiable, Codable, Equatable {
     let id: UUID
     var title: String
     var itemDescription: String
-
-    // SwiftData stores enum values as String for stability
-    var reportTypeRaw: String
-    var categoryRaw: String
-    var statusRaw: String
-    var universityRaw: String
-
+    
+    //report class
+    //used enum for filtering & prevent invalid values
+    var reportType: ReportType
+    var category: ItemCategory
+    var status: ReportStatus
+    
+    //location info
+    //name displayed in the ui
+    //coordinates for mapkit pins later
+    var university: University
     var locationName: String
     var latitude: Double
     var longitude: Double
-
+    
+    //report data (can call it metadata? maybe)
     var dateReported: Date
     var contact: String
+    
+    //local creator ID
+    //only the creator can edit/delete/resolve
     var createdByUserID: String
     
     //initialiser
@@ -59,3 +67,5 @@ struct LostFoundItem : Identifiable, Codable, Equatable {
             self.dateReported = dateReported
             self.contact = contact
             self.createdByUserID = createdByUserID
+        }
+}
