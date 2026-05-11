@@ -61,7 +61,7 @@ struct ItemDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar{
             ToolbarItem(placement: .topBarTrailing) {
-                if item.status == .active {
+                if item.status == .active && item.createdByUserID == UserManager.getOrCreateUserID() {
                     Button("Resolve") {
                         LostFoundStorageManager().updateItemStatus(
                             updatedItem: item,
