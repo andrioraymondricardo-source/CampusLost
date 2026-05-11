@@ -54,12 +54,6 @@ struct CampusLocationData {
             name: "Alumni Green",
             latitude: -33.8839,
             longitude: 151.2009
-        ),
-        CampusLocation(
-            university: .uts,
-            name: "Central Station area",
-            latitude: -33.8830,
-            longitude: 151.2060
         )
     ]
     

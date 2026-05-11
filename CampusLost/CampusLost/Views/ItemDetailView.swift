@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ItemDetailView: View {
 
-    let item: SampleItem
+    let item: LostFoundItem
 
     var body: some View {
 
@@ -19,7 +19,7 @@ struct ItemDetailView: View {
 
                 VStack(spacing: 16) {
 
-                    Image(systemName: item.icon)
+                    Image(systemName: item.category.iconName)
                         .font(.system(size: 50))
                         .foregroundStyle(AppTheme.primary)
                         .frame(width: 120, height: 120)
@@ -30,18 +30,18 @@ struct ItemDetailView: View {
                         .font(.title)
                         .fontWeight(.bold)
 
-                    Text("\(item.type) • \(item.category)")
+                    Text("\(item.reportType.rawValue) • \(item.category.rawValue)")
                         .foregroundStyle(.secondary)
                 }
 
                 DetailCard(
                     title: "Location",
-                    content: item.location
+                    content: item.locationName
                 )
 
                 DetailCard(
                     title: "Description",
-                    content: item.description
+                    content: item.itemDescription
                 )
 
                 DetailCard(
@@ -100,14 +100,6 @@ struct DetailCard: View {
 #Preview {
 
     ItemDetailView(
-        item: SampleItem(
-            icon: "headphones",
-            title: "AirPods Pro",
-            type: "Lost",
-            category: "Electronics",
-            location: "UTS Library",
-            description: "White AirPods Pro case lost near the study area around 2PM.",
-            contact: "andrio@student.uts.edu.au"
-        )
+        item: LostFoundItem(title: "AirPods Pro", itemDescription: "White AirPods Pro case lost near the study area around 2PM.", reportType: .lost, category: .electronics, university: .uts, locationName: "UTS Library", latitude: -33.88326180111422, longitude: 151.20061189923524, contact: "andrio@student.uts.edu.au", createdByUserID: "UUID()")
     )
 }

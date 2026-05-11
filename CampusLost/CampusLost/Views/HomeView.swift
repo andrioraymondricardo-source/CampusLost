@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-struct SampleItem: Identifiable {
-    let id = UUID()
-    let icon: String
-    let title: String
-    let type: String
-    let category: String
-    let location: String
-    let description: String
-    let contact: String
-}
+//struct SampleItem: Identifiable {
+//    let id = UUID()
+//    let icon: String
+//    let title: String
+//    let type: String
+//    let category: String
+//    let location: String
+//    let description: String
+//    let contact: String
+//}
 
 struct HomeView: View {
 
@@ -26,48 +26,57 @@ struct HomeView: View {
     @State private var selectedCategoryFilter = "All"
 
     let items = [
-        SampleItem(
-            icon: "headphones",
+        LostFoundItem(
             title: "AirPods Pro",
-            type: "Lost",
-            category: "Electronics",
-            location: "UTS Library",
-            description: "White AirPods Pro case lost near the study area around 2PM.",
-            contact: "andrio@student.uts.edu.au"
+            itemDescription: "White AirPods Pro case lost near the study area around 2PM.",
+            reportType: .lost,
+            category: .electronics,
+            university: .uts,
+            locationName: "UTS Library",
+            latitude: -33.88326180111422,
+            longitude: 151.20061189923524,
+            contact: "andrio@student.uts.edu.au",
+            createdByUserID: "UUID()"
         ),
-        SampleItem(
-            icon: "wallet.pass",
+        LostFoundItem(
             title: "Student ID Card",
-            type: "Found",
-            category: "Cards",
-            location: "Building 10",
-            description: "Found student ID card near the entrance of Building 10.",
-            contact: "campuslost@student.uts.edu.au"
+            itemDescription: "Found student ID card near the entrance of Building 10.",
+            reportType: .found,
+            category: .cards,
+            university: .uts,
+            locationName: "Building 10",
+            latitude: -33.8846,
+            longitude: 151.2002,
+            contact: "campuslost@student.uts.edu.au",
+            createdByUserID: "UUID()"
         ),
-        SampleItem(
-            icon: "key.fill",
-            title: "Apartment Keys",
-            type: "Lost",
-            category: "Keys",
-            location: "Building 1",
-            description: "Lost a small key set with a black keychain.",
-            contact: "student@example.com"
+        LostFoundItem(
+            title: "Apartment Key",
+            itemDescription: "Lost a small key set with a black keychain.",
+            reportType: .lost,
+            category: .keys,
+            university: .uts,
+            locationName: "Building 1",
+            latitude: -33.8836,
+            longitude: 151.2008,
+            contact: "student@example.com",
+            createdByUserID: "UUID()"
         )
     ]
 
-    var filteredItems: [SampleItem] {
+    var filteredItems: [LostFoundItem] {
         items.filter { item in
             let matchesStatus =
-            selectedTypeFilter == "All" || item.type == selectedTypeFilter
+            selectedTypeFilter == "All" || item.reportType.rawValue == selectedTypeFilter
             
             let matchesCategory =
-            selectedCategoryFilter == "All" || item.category == selectedCategoryFilter
+            selectedCategoryFilter == "All" || item.category.rawValue == selectedCategoryFilter
 
             let matchesSearch =
             searchText.isEmpty ||
             item.title.localizedCaseInsensitiveContains(searchText) ||
-            item.category.localizedCaseInsensitiveContains(searchText) ||
-            item.location.localizedCaseInsensitiveContains(searchText)
+            item.category.rawValue.localizedCaseInsensitiveContains(searchText) ||
+            item.locationName.localizedCaseInsensitiveContains(searchText)
 
             return matchesStatus && matchesSearch && matchesCategory
         }
@@ -134,15 +143,15 @@ struct HomeView: View {
                         }
 
                         VStack(spacing: 16) {
-                            ForEach(filteredItems) { item in
+                            ForEach(filteredItems, id: \.id) { item in
                                 NavigationLink {
                                     ItemDetailView(item: item)
                                 } label: {
                                     ItemRowView(
-                                        icon: item.icon,
+                                        icon: item.category.iconName,
                                         title: item.title,
-                                        subtitle: "\(item.type) • \(item.category)",
-                                        location: item.location
+                                        subtitle: "\(item.reportType.rawValue) • \(item.category.rawValue)",
+                                        location: item.locationName
                                     )
                                 }
                                 .buttonStyle(.plain)
