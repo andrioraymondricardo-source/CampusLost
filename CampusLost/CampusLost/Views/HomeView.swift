@@ -22,7 +22,8 @@ struct HomeView: View {
 
     @StateObject private var filterViewModel = ItemFilterViewModel()
     @State private var searchText = ""
-    @State private var selectedFilter = "All"
+    @State private var selectedTypeFilter = "All"
+    @State private var selectedCategoryFilter = "All"
 
     let items = [
         SampleItem(
@@ -38,7 +39,7 @@ struct HomeView: View {
             icon: "wallet.pass",
             title: "Student ID Card",
             type: "Found",
-            category: "Cards/ID",
+            category: "Cards",
             location: "Building 10",
             description: "Found student ID card near the entrance of Building 10.",
             contact: "campuslost@student.uts.edu.au"
@@ -56,8 +57,11 @@ struct HomeView: View {
 
     var filteredItems: [SampleItem] {
         items.filter { item in
-            let matchesFilter =
-            selectedFilter == "All" || item.type == selectedFilter
+            let matchesStatus =
+            selectedTypeFilter == "All" || item.type == selectedTypeFilter
+            
+            let matchesCategory =
+            selectedCategoryFilter == "All" || item.category == selectedCategoryFilter
 
             let matchesSearch =
             searchText.isEmpty ||
@@ -65,7 +69,7 @@ struct HomeView: View {
             item.category.localizedCaseInsensitiveContains(searchText) ||
             item.location.localizedCaseInsensitiveContains(searchText)
 
-            return matchesFilter && matchesSearch
+            return matchesStatus && matchesSearch && matchesCategory
         }
     }
 
@@ -109,9 +113,24 @@ struct HomeView: View {
                         .cornerRadius(AppTheme.cornerRadius)
 
                         HStack(spacing: 12) {
-                            FilterButton(title: "All", selectedFilter: $selectedFilter)
-                            FilterButton(title: "Lost", selectedFilter: $selectedFilter)
-                            FilterButton(title: "Found", selectedFilter: $selectedFilter)
+                            Text("Status:")
+                            FilterTypeButton(title: "All", selectedTypeFilter: $selectedTypeFilter)
+                            ForEach(ReportType.allCases){reportType in
+                                    FilterTypeButton(title: reportType.rawValue, selectedTypeFilter: $selectedTypeFilter)
+                            }
+                        }
+                        
+                        HStack{
+                            Text("Category:")
+                            ScrollView(.horizontal, showsIndicators: false)
+                            {
+                                HStack(spacing: 12) {
+                                    FilterCategoryButton(title: "All", selectedCategoryFilter: $selectedCategoryFilter)
+                                    ForEach(ItemCategory.allCases){reportType in
+                                        FilterCategoryButton(title: reportType.rawValue, selectedCategoryFilter: $selectedCategoryFilter)
+                                    }
+                                }
+                            }
                         }
 
                         VStack(spacing: 16) {
@@ -137,14 +156,14 @@ struct HomeView: View {
     }
 }
 
-struct FilterButton: View {
+struct FilterTypeButton: View {
 
     let title: String
-    @Binding var selectedFilter: String
+    @Binding var selectedTypeFilter: String
 
     var body: some View {
         Button {
-            selectedFilter = title
+            selectedTypeFilter = title
         } label: {
             Text(title)
                 .font(.subheadline)
@@ -152,12 +171,41 @@ struct FilterButton: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
                 .background(
-                    selectedFilter == title
+                    selectedTypeFilter == title
                     ? AppTheme.primary
                     : AppTheme.primary.opacity(0.15)
                 )
                 .foregroundStyle(
-                    selectedFilter == title
+                    selectedTypeFilter == title
+                    ? .white
+                    : AppTheme.primary
+                )
+                .cornerRadius(30)
+        }
+    }
+}
+
+struct FilterCategoryButton: View {
+
+    let title: String
+    @Binding var selectedCategoryFilter: String
+
+    var body: some View {
+        Button {
+            selectedCategoryFilter = title
+        } label: {
+            Text(title)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
+                .background(
+                    selectedCategoryFilter == title
+                    ? AppTheme.primary
+                    : AppTheme.primary.opacity(0.15)
+                )
+                .foregroundStyle(
+                    selectedCategoryFilter == title
                     ? .white
                     : AppTheme.primary
                 )
