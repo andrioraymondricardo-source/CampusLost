@@ -8,33 +8,28 @@
 import SwiftUI
 
 struct MainTabView: View {
-    
-    @State private var selectedTab: AppTab = .home
    
     var body: some View {
 
         TabView {
 
-            HomeView(selectedTab: $selectedTab)
+            HomeView()
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("Home")
                 }
-                .tag(AppTab.home)
 
-            AddReportView(selectedTab: $selectedTab)
+            AddReportView()
                 .tabItem {
                     Image(systemName: "plus.circle.fill")
                     Text("Add")
                 }
-                .tag (AppTab.add)
 
-            MapView(selectedTab: $selectedTab)
+            MapView()
                 .tabItem {
                     Image(systemName: "map.fill")
                     Text("Map")
                 }
-                .tag(AppTab.map)
         }
         .tint(AppTheme.primary)
     }

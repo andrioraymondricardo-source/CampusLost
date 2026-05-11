@@ -51,27 +51,28 @@ struct ItemDetailView: View {
 
                 DetailCard(
                     title: "Status",
-                    content: "Active"
+                    content: item.status.rawValue
                 )
-
-                Button {
-
-                } label: {
-
-                    Text("Mark as Resolved")
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(AppTheme.primary)
-                        .cornerRadius(AppTheme.cornerRadius)
-                }
             }
             .padding()
         }
         .background(AppTheme.background)
         .navigationTitle("Item Details")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar{
+            ToolbarItem(placement: .topBarTrailing) {
+                if item.status == .active {
+                    Button("Resolve") {
+                        LostFoundStorageManager().updateItemStatus(
+                            updatedItem: item,
+                            rStatus: .resolved
+                        )
+                    }
+                    .fontWeight(.semibold)
+                }
+            }
+        }
+        
     }
 }
 

@@ -12,8 +12,7 @@ struct OnBoardingView: View {
 
     @AppStorage("selectedUniversity") private var selectedUniversity: String = ""
 
-    @State private var chosenUniversity = ""
-    @State private var showUniversityError = false
+    @State private var chosenUniversity = University.uts.rawValue
 
     let universities = University.allCases
 
@@ -66,14 +65,8 @@ struct OnBoardingView: View {
                 }
 
                 Button {
-                    if chosenUniversity.isEmpty {
-                        showUniversityError = true
-                    }else
-                    {
-                        showUniversityError = false
                         selectedUniversity = chosenUniversity
                         hasSelectedSessionUniversity = true
-                    }
                 } label: {
                     Text("Continue")
                         .fontWeight(.semibold)
@@ -82,9 +75,6 @@ struct OnBoardingView: View {
                         .padding()
                         .background(AppTheme.primary)
                         .cornerRadius(AppTheme.cornerRadius)
-                }
-                .alert("Please pick a university.", isPresented: $showUniversityError){
-                    Button("OK", role: .cancel){}
                 }
 
                 Spacer()

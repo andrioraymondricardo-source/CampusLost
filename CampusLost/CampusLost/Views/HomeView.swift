@@ -7,20 +7,7 @@
 
 import SwiftUI
 
-//struct SampleItem: Identifiable {
-//    let id = UUID()
-//    let icon: String
-//    let title: String
-//    let type: String
-//    let category: String
-//    let location: String
-//    let description: String
-//    let contact: String
-//}
-
 struct HomeView: View {
-    
-    @Binding var selectedTab: AppTab
 
     @StateObject private var filterViewModel = ItemFilterViewModel()
     
@@ -50,127 +37,174 @@ struct HomeView: View {
                 )
                 .ignoresSafeArea()
 
-                ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
 
-                    VStack(alignment: .leading, spacing: 20) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("CampusLost")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
 
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("CampusLost")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
+                        Text("Find and report lost or found items around campus.")
+                            .foregroundStyle(.secondary)
+                    }
 
-                            Text("Find and report lost or found items around campus.")
-                                .foregroundStyle(.secondary)
-                        }
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundStyle(.secondary)
 
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundStyle(.secondary)
+                        TextField("Search items", text: $filterViewModel.searchText)
+                    }
+                    .padding()
+                    .background(.white)
+                    .cornerRadius(AppTheme.cornerRadius)
 
-                            TextField("Search items", text: $filterViewModel.searchText)
-                        }
-                        .padding()
-                        .background(.white)
-                        .cornerRadius(AppTheme.cornerRadius)
+                    HStack(spacing: 12) {
+                        Text("Report Type:")
+                        Button {
+                               filterViewModel.selectedReportType = nil
+                           } label: {
+                               Text("All")
+                                   .font(.subheadline)
+                                   .fontWeight(.semibold)
+                                   .padding(.horizontal, 16)
+                                   .padding(.vertical, 10)
+                                   .background(
+                                       filterViewModel.selectedReportType == nil
+                                       ? AppTheme.primary
+                                       : AppTheme.primary.opacity(0.15)
+                                   )
+                                   .foregroundStyle(
+                                       filterViewModel.selectedReportType == nil
+                                       ? .white
+                                       : AppTheme.primary
+                                   )
+                                   .cornerRadius(30)
+                           }
 
-                        HStack(spacing: 12) {
-                            Text("Status:")
-                            Button {
-                                   filterViewModel.selectedReportType = nil
+                           ForEach(ReportType.allCases, id: \.self) { reportType in
+                               Button {
+                                   filterViewModel.selectedReportType = reportType
                                } label: {
-                                   Text("All")
+                                   Text(reportType.rawValue)
                                        .font(.subheadline)
                                        .fontWeight(.semibold)
                                        .padding(.horizontal, 16)
                                        .padding(.vertical, 10)
                                        .background(
-                                           filterViewModel.selectedReportType == nil
+                                           filterViewModel.selectedReportType == reportType
                                            ? AppTheme.primary
                                            : AppTheme.primary.opacity(0.15)
                                        )
                                        .foregroundStyle(
-                                           filterViewModel.selectedReportType == nil
+                                           filterViewModel.selectedReportType == reportType
                                            ? .white
                                            : AppTheme.primary
                                        )
                                        .cornerRadius(30)
                                }
+                           }
+                    }
+                    
+                    HStack{
+                        Text("Category:")
+                        ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 12) {
+                                    Button {
+                                        filterViewModel.selectedCategory = nil
+                                    } label: {
+                                        Text("All")
+                                            .font(.subheadline)
+                                            .fontWeight(.semibold)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 10)
+                                            .background(
+                                                filterViewModel.selectedCategory == nil
+                                                ? AppTheme.primary
+                                                : AppTheme.primary.opacity(0.15)
+                                            )
+                                            .foregroundStyle(
+                                                filterViewModel.selectedCategory == nil
+                                                ? .white
+                                                : AppTheme.primary
+                                            )
+                                            .cornerRadius(30)
+                                    }
 
-                               ForEach(ReportType.allCases, id: \.self) { reportType in
-                                   Button {
-                                       filterViewModel.selectedReportType = reportType
-                                   } label: {
-                                       Text(reportType.rawValue)
-                                           .font(.subheadline)
-                                           .fontWeight(.semibold)
-                                           .padding(.horizontal, 16)
-                                           .padding(.vertical, 10)
-                                           .background(
-                                               filterViewModel.selectedReportType == reportType
-                                               ? AppTheme.primary
-                                               : AppTheme.primary.opacity(0.15)
-                                           )
-                                           .foregroundStyle(
-                                               filterViewModel.selectedReportType == reportType
-                                               ? .white
-                                               : AppTheme.primary
-                                           )
-                                           .cornerRadius(30)
-                                   }
-                               }
-                        }
-                        
-                        HStack{
-                            Text("Category:")
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 12) {
+                                    ForEach(ItemCategory.allCases, id: \.self) { category in
                                         Button {
-                                            filterViewModel.selectedCategory = nil
+                                            filterViewModel.selectedCategory = category
                                         } label: {
-                                            Text("All")
+                                            Text(category.rawValue)
                                                 .font(.subheadline)
                                                 .fontWeight(.semibold)
                                                 .padding(.horizontal, 16)
                                                 .padding(.vertical, 10)
                                                 .background(
-                                                    filterViewModel.selectedCategory == nil
+                                                    filterViewModel.selectedCategory == category
                                                     ? AppTheme.primary
                                                     : AppTheme.primary.opacity(0.15)
                                                 )
                                                 .foregroundStyle(
-                                                    filterViewModel.selectedCategory == nil
+                                                    filterViewModel.selectedCategory == category
                                                     ? .white
                                                     : AppTheme.primary
                                                 )
                                                 .cornerRadius(30)
                                         }
-
-                                        ForEach(ItemCategory.allCases, id: \.self) { category in
-                                            Button {
-                                                filterViewModel.selectedCategory = category
-                                            } label: {
-                                                Text(category.rawValue)
-                                                    .font(.subheadline)
-                                                    .fontWeight(.semibold)
-                                                    .padding(.horizontal, 16)
-                                                    .padding(.vertical, 10)
-                                                    .background(
-                                                        filterViewModel.selectedCategory == category
-                                                        ? AppTheme.primary
-                                                        : AppTheme.primary.opacity(0.15)
-                                                    )
-                                                    .foregroundStyle(
-                                                        filterViewModel.selectedCategory == category
-                                                        ? .white
-                                                        : AppTheme.primary
-                                                    )
-                                                    .cornerRadius(30)
-                                            }
-                                        }
                                     }
                                 }
-                        }
+                            }
+                    }
+                    
+                    HStack(spacing: 12) {
+                        Text("Status:")
 
+                        Button {
+                            filterViewModel.selectedStatus = .active
+                        } label: {
+                            Text("Active")
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 10)
+                                .background(
+                                    filterViewModel.selectedStatus == .active
+                                    ? AppTheme.primary
+                                    : AppTheme.primary.opacity(0.15)
+                                )
+                                .foregroundStyle(
+                                    filterViewModel.selectedStatus == .active
+                                    ? .white
+                                    : AppTheme.primary
+                                )
+                                .cornerRadius(30)
+                        }
+                        
+                        Button {
+                            filterViewModel.selectedStatus = .resolved
+                        } label: {
+                            Text("Resolved")
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 10)
+                                .background(
+                                    filterViewModel.selectedStatus == .resolved
+                                    ? AppTheme.primary
+                                    : AppTheme.primary.opacity(0.15)
+                                )
+                                .foregroundStyle(
+                                    filterViewModel.selectedStatus == .resolved
+                                    ? .white
+                                    : AppTheme.primary
+                                )
+                                .cornerRadius(30)
+                        }
+                        
+                    }
+                    
+                    ScrollView(.vertical, showsIndicators: true){
+                        
                         VStack(spacing: 16) {
                             
                             if filteredItems.isEmpty {
@@ -197,8 +231,8 @@ struct HomeView: View {
                             }
                         }
                     }
-                    .padding()
                 }
+                .padding()
             }
         }
         .onAppear {
@@ -209,5 +243,5 @@ struct HomeView: View {
 
 
 #Preview {
-    HomeView(selectedTab: .constant(.home))
+    HomeView()
 }

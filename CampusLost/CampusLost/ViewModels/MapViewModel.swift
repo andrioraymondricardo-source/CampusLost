@@ -14,6 +14,7 @@ final class MapViewModel: ObservableObject {
     @Published private(set) var items: [LostFoundItem] = []
     @Published var selectedCategory: ItemCategory? = nil
     @Published var selectedBuilding: String = "Main Campus"
+    @Published var selectedStatus: ReportStatus = .active
     
     private let mainCampusSpan: Double = 0.003
     private let buildingSpan: Double = 0.001
@@ -27,7 +28,7 @@ final class MapViewModel: ObservableObject {
     func filteredItems(for university: University) -> [LostFoundItem] {
         return items.filter { item in
             let matchesUniversity = item.university == university
-            let matchesStatus = item.status == .active
+            let matchesStatus = item.status == selectedStatus
             let matchesCategory = selectedCategory == nil || item.category == selectedCategory
             
             return matchesUniversity && matchesStatus && matchesCategory

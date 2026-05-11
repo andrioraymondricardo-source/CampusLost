@@ -16,9 +16,12 @@ final class AddReportViewModel: ObservableObject {
     @Published  var location = ""
     @Published  var description = ""
     @Published  var contact = ""
-    @Published  var errorMessage = ""
     @Published var selectedLatitude: Double? = nil
     @Published var selectedLongitude: Double? = nil
+    
+    @Published var showAlert = false
+    @Published var alertMessage = ""
+    @Published var showSuccess = false
     
     var hasSelectedMapLocation: Bool {
         selectedLatitude != nil && selectedLongitude != nil
@@ -39,28 +42,33 @@ final class AddReportViewModel: ObservableObject {
         let trimmedContact = contact.trimmingCharacters(in: .whitespacesAndNewlines)
         
         guard !trimmedTitle.isEmpty else {
-            errorMessage = "Please enter an item title."
+            alertMessage = "Please enter an item title."
+            showAlert = true
             return false
         }
         
         guard !trimmedDescription.isEmpty else {
-            errorMessage = "Please enter a description."
+            alertMessage = "Please enter a description."
+            showAlert = true
             return false
         }
         
         guard !trimmedContact.isEmpty else {
-            errorMessage = "Please enter contact information."
+            alertMessage = "Please enter contact information."
+            showAlert = true
             return false
         }
         
         guard let selectedLocation = locations.first(where: {$0.name == location})else {
-            errorMessage = "Please select a campus location."
+            alertMessage = "Please select a campus location."
+            showAlert = true
             return false
         }
         
         guard let _ = selectedLatitude,
               let _ = selectedLongitude else {
-            errorMessage = "Please set the exact location on the map."
+            alertMessage = "Please set the exact location on the map."
+            showAlert = true
             return false
         }
         
@@ -83,6 +91,7 @@ final class AddReportViewModel: ObservableObject {
             )
             
             LostFoundStorageManager().addItem(newItem)
+            showSuccess = true
             return true
         }
     

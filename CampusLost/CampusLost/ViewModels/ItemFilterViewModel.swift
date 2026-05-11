@@ -13,7 +13,7 @@ final class ItemFilterViewModel: ObservableObject{
     @Published var searchText = ""
     @Published var selectedReportType: ReportType? = nil
     @Published var selectedCategory: ItemCategory? = nil
-    @Published var showResolvedItems: Bool = false
+    @Published var selectedStatus: ReportStatus = .active
     @Published var itemList: [LostFoundItem] = []
     
     private let storageManager: LostFoundStorageManager = LostFoundStorageManager()
@@ -24,7 +24,7 @@ final class ItemFilterViewModel: ObservableObject{
         itemList.filter {item in
             let matchesUniversity = item.university == selectedUniversity
             
-            let matchesStatus = showResolvedItems ? true : item.status == .active
+            let matchesStatus = selectedStatus == item.status
             
             let matchesReportType = selectedReportType == nil || item.reportType == selectedReportType
             

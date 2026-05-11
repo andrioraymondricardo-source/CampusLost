@@ -39,14 +39,14 @@ final class LostFoundStorageManager {
         saveItems(items)
     }
     
-    func updateItem(_ updatedItem: LostFoundItem){
+    func updateItemStatus(updatedItem: LostFoundItem, rStatus: ReportStatus){
         var items = loadItems()
         
         guard let index = items.firstIndex(where: {$0.id == updatedItem.id}) else {
             return
         }
         
-        items[index] = updatedItem
+        items[index].status = rStatus
         saveItems(items)
     }
     

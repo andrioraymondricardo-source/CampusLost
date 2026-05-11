@@ -9,8 +9,6 @@ import SwiftUI
 
 struct AddReportView: View {
     
-    @Binding var selectedTab: AppTab
-    
     @StateObject var viewModel = AddReportViewModel()
     
     @AppStorage("localUserID") private var localUserID = ""
@@ -30,114 +28,131 @@ struct AddReportView: View {
     var body: some View {
 
         NavigationStack {
+            
+            VStack(alignment: .leading){
 
-            Form {
-
-                Section("Item Information") {
-
-                    TextField("Item title", text: $viewModel.title)
-
-                    Picker("Report Type", selection: $viewModel.reportType) {
-                        ForEach(ReportType.allCases, id: \.self) { type in
-                            Text(type.rawValue)
-                                .tag(type)
-                        }
-                    }
-
-                    Picker("Category", selection: $viewModel.category) {
-                        ForEach(ItemCategory.allCases, id: \.self) { category in
-                            Text(category.rawValue)
-                                .tag(category)
-                        }
-                    }
-
-                    Picker("Location", selection: $viewModel.location) {
-                        ForEach(locations, id: \.self) { location in
-                            Text(location.name)
-                                .tag(location.name)
-                        }
-                    }
-                    .onChange(of: viewModel.location) {_, _ in
-                        viewModel.selectedLatitude = nil
-                        viewModel.selectedLongitude = nil
-                    }
-                }
-
-                Section("Details") {
-                    TextField("Description", text: $viewModel.description, axis: .vertical)
-                        .lineLimit(4)
-
-                    TextField("Contact info", text: $viewModel.contact)
-                        .keyboardType(.emailAddress)
-                }
+                Text("Add Report")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .padding(.leading, 20)
+                    .padding(.bottom, 1)
+                    .background(AppTheme.background)
                 
-                Section {
-                    if let selectedPresetLocation {
-                        NavigationLink {
-                            ReportLocationPickerView(
-                                viewModel: viewModel,
-                                startingLocation: selectedPresetLocation
-                            )
-                        } label: {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("Set Location")
-                                        .fontWeight(.semibold)
-
-                                    if viewModel.hasSelectedMapLocation {
-                                        Text("Exact map location selected")
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                    } else {
-                                        Text("Required before submitting")
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                }
-
-                                Spacer()
-
-                                Image(
-                                    systemName: viewModel.hasSelectedMapLocation
-                                    ? "checkmark.circle.fill"
-                                    : "mappin.circle"
-                                )
-                                .foregroundStyle(
-                                    viewModel.hasSelectedMapLocation
-                                    ? .green
-                                    : AppTheme.primary
-                                )
+                Form {
+                    
+                    Section("Item Information") {
+                        
+                        TextField("Item title", text: $viewModel.title)
+                        
+                        Picker("Report Type", selection: $viewModel.reportType) {
+                            ForEach(ReportType.allCases, id: \.self) { type in
+                                Text(type.rawValue)
+                                    .tag(type)
                             }
                         }
-                    } else {
-                        Text("Please select a campus location first.")
-                            .foregroundStyle(.secondary)
-                    }
-                }
-
-                Section {
-                    Button {
                         
-                        let didSave = viewModel.submitReport(selectedUniversity: selectedUniversity, locations: locations)
-                        
-                        if didSave {
-                            viewModel.clearForm(locations: locations)
-                            selectedTab = .home
+                        Picker("Category", selection: $viewModel.category) {
+                            ForEach(ItemCategory.allCases, id: \.self) { category in
+                                Text(category.rawValue)
+                                    .tag(category)
+                            }
                         }
-                    
-                    } label: {
-                        Text("Submit Report")
-                            .fontWeight(.semibold)
-                            .frame(maxWidth: .infinity)
+                        
+                        Picker("Location", selection: $viewModel.location) {
+                            ForEach(locations, id: \.self) { location in
+                                Text(location.name)
+                                    .tag(location.name)
+                            }
+                        }
+                        .onChange(of: viewModel.location) {_, _ in
+                            viewModel.selectedLatitude = nil
+                            viewModel.selectedLongitude = nil
+                        }
                     }
-                    .disabled(!viewModel.hasSelectedMapLocation)
-                    .opacity(viewModel.hasSelectedMapLocation ? 1 : 0.5)
+                    
+                    Section("Details") {
+                        TextField("Description", text: $viewModel.description, axis: .vertical)
+                            .lineLimit(4)
+                        
+                        TextField("Contact info", text: $viewModel.contact)
+                            .keyboardType(.emailAddress)
+                    }
+                    
+                    Section("Select Location") {
+                        if let selectedPresetLocation {
+                            NavigationLink {
+                                ReportLocationPickerView(
+                                    viewModel: viewModel,
+                                    startingLocation: selectedPresetLocation
+                                )
+                            } label: {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("Set Location")
+                                            .fontWeight(.semibold)
+                                        
+                                        if viewModel.hasSelectedMapLocation {
+                                            Text("Exact map location selected")
+                                                .font(.caption)
+                                                .foregroundStyle(.secondary)
+                                        } else {
+                                            Text("Required before submitting")
+                                                .font(.caption)
+                                                .foregroundStyle(.secondary)
+                                        }
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    Image(
+                                        systemName: viewModel.hasSelectedMapLocation
+                                        ? "checkmark.circle.fill"
+                                        : "mappin.circle"
+                                    )
+                                    .foregroundStyle(
+                                        viewModel.hasSelectedMapLocation
+                                        ? .green
+                                        : AppTheme.primary
+                                    )
+                                }
+                            }
+                        } else {
+                            Text("Please select a campus location first.")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    
+                    Section {
+                        Button {
+                            
+                            let didSave = viewModel.submitReport(selectedUniversity: selectedUniversity, locations: locations)
+                            
+                            if didSave {
+                                viewModel.clearForm(locations: locations)
+                            }
+                            
+                        } label: {
+                            Text("Submit Report")
+                                .fontWeight(.semibold)
+                                .frame(maxWidth: .infinity)
+                        }
+                        .disabled(!viewModel.hasSelectedMapLocation)
+                        .opacity(viewModel.hasSelectedMapLocation ? 1 : 0.5)
+                    }
+                }
+                .onAppear {viewModel.fillLocation(locations: locations)}
+                .alert("Missing Information", isPresented: $viewModel.showAlert) {
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text(viewModel.alertMessage)
+                }
+                .alert("Report Added", isPresented: $viewModel.showSuccess) {
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text("Your report has been added to the Home list.")
                 }
             }
-            .navigationTitle("Add Report")
-            .onAppear {
-                viewModel.fillLocation(locations: locations)
-            }
+            .background(AppTheme.background)
         }
     }
     
@@ -146,6 +161,6 @@ struct AddReportView: View {
 }
 
 #Preview {
-    AddReportView(selectedTab: .constant(.add))
+    AddReportView()
 }
 

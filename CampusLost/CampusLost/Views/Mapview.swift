@@ -10,8 +10,6 @@ import MapKit
 import Combine
 
 struct MapView: View {
-    
-    @Binding var selectedTab: AppTab
 
     @AppStorage("selectedUniversity") private var selectedUniversityRawValue: String = University.uts.rawValue
     
@@ -141,9 +139,12 @@ struct MapView: View {
             buildingButtons
             
             categoryButtons
+            
+            statusButtons
         }
-        .padding(.top, 8)
+        .padding(.top, -40)
         .padding(.horizontal)
+        .padding(.bottom)
         .background(.ultraThinMaterial)
     }
     
@@ -202,6 +203,27 @@ struct MapView: View {
                             filterChip(
                                 title: category.rawValue,
                                 isSelected: mapViewModel.selectedCategory == category
+                            )
+                        }
+                    }
+                }
+                .padding(.horizontal, 4)
+            }
+        }
+    }
+    
+    private var statusButtons: some View {
+        HStack{
+            Text("Status:")
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    ForEach(ReportStatus.allCases, id: \.self) { status in
+                        Button {
+                            mapViewModel.selectedStatus = status
+                        } label: {
+                            filterChip(
+                                title: status.rawValue,
+                                isSelected: mapViewModel.selectedStatus == status
                             )
                         }
                     }
@@ -311,6 +333,6 @@ struct MapView: View {
 }
 
 #Preview {
-    MapView(selectedTab: .constant(.map))
+    MapView()
 }
 
