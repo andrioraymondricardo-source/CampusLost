@@ -10,6 +10,8 @@ import MapKit
 import Combine
 
 struct MapView: View {
+    
+    @Binding var selectedTab: AppTab
 
     @AppStorage("selectedUniversity") private var selectedUniversityRawValue: String = University.uts.rawValue
     
@@ -309,6 +311,6 @@ struct MapView: View {
 }
 
 #Preview {
-    MapView()
+    MapView(selectedTab: .constant(.map))
 }
 

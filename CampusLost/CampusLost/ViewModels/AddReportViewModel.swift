@@ -17,6 +17,12 @@ final class AddReportViewModel: ObservableObject {
     @Published  var description = ""
     @Published  var contact = ""
     @Published  var errorMessage = ""
+    @Published var selectedLatitude: Double? = nil
+    @Published var selectedLongitude: Double? = nil
+    
+    var hasSelectedMapLocation: Bool {
+        selectedLatitude != nil && selectedLongitude != nil
+    }
     
     func setDefaultLocationIfRequired(from locations: [CampusLocation]){
         if location.isEmpty{
@@ -52,39 +58,58 @@ final class AddReportViewModel: ObservableObject {
             return false
         }
         
+        guard let _ = selectedLatitude,
+              let _ = selectedLongitude else {
+            errorMessage = "Please set the exact location on the map."
+            return false
+        }
+        
         let creatorID = UserManager.getOrCreateUserID()
         
-        let newItem = LostFoundItem(
-            title: trimmedTitle,
-            itemDescription: trimmedDescription,
-            reportType: reportType,
-            category: category,
-            status: .active,
-            university: selectedUniversity,
-            locationName: selectedLocation.name,
-            latitude: selectedLocation.latitude,
-            longitude: selectedLocation.longitude,
-            dateReported: Date(),
-            contact: trimmedContact,
-            createdByUserID: creatorID
-        )
-        
-        LostFoundStorageManager().addItem(newItem)
-        return true
-        
+        if let latitude = selectedLatitude, let longitude = selectedLongitude {
+            let newItem = LostFoundItem(
+                title: trimmedTitle,
+                itemDescription: trimmedDescription,
+                reportType: reportType,
+                category: category,
+                status: .active,
+                university: selectedUniversity,
+                locationName: selectedLocation.name,
+                latitude: latitude,
+                longitude: longitude,
+                dateReported: Date(),
+                contact: trimmedContact,
+                createdByUserID: creatorID
+            )
+            
+            LostFoundStorageManager().addItem(newItem)
+            return true
+        }
+    
+        return false
     }
     
-    private func clearForm(defaultLocationName: String) {
+    func clearForm(locations: [CampusLocation]) {
         title = ""
         reportType = ReportType.lost
         category = ItemCategory.electronics
-        location = defaultLocationName
+        location = locations[0].name
         description = ""
         contact = ""
+        selectedLatitude = nil
+        selectedLongitude = nil
     }
     
     func fillLocation(locations: [CampusLocation]){
-        location = locations[0].name
+        if location.isEmpty {
+            location = locations[0].name
+        }
+        
+    }
+    
+    func setPinnedLocation(latitude: Double, longitude: Double){
+        selectedLongitude = longitude
+        selectedLatitude = latitude
     }
     
 }

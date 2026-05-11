@@ -9,7 +9,9 @@ import SwiftUI
 
 struct AddReportView: View {
     
-    @StateObject var viewModel: AddReportViewModel
+    @Binding var selectedTab: AppTab
+    
+    @StateObject var viewModel = AddReportViewModel()
     
     @AppStorage("localUserID") private var localUserID = ""
     @AppStorage("selectedUniversity") private var selectedUniversityRawValue = University.uts.rawValue
@@ -20,7 +22,10 @@ struct AddReportView: View {
 
     private var locations: [CampusLocation]{ CampusLocationData.locations(for: selectedUniversity)
     }
-   
+    
+    private var selectedPresetLocation: CampusLocation? {
+        locations.first {$0.name == viewModel.location}
+    }
 
     var body: some View {
 
@@ -52,6 +57,10 @@ struct AddReportView: View {
                                 .tag(location.name)
                         }
                     }
+                    .onChange(of: viewModel.location) {_, _ in
+                        viewModel.selectedLatitude = nil
+                        viewModel.selectedLongitude = nil
+                    }
                 }
 
                 Section("Details") {
@@ -61,17 +70,68 @@ struct AddReportView: View {
                     TextField("Contact info", text: $viewModel.contact)
                         .keyboardType(.emailAddress)
                 }
+                
+                Section {
+                    if let selectedPresetLocation {
+                        NavigationLink {
+                            ReportLocationPickerView(
+                                viewModel: viewModel,
+                                startingLocation: selectedPresetLocation
+                            )
+                        } label: {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Set Location")
+                                        .fontWeight(.semibold)
+
+                                    if viewModel.hasSelectedMapLocation {
+                                        Text("Exact map location selected")
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    } else {
+                                        Text("Required before submitting")
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+
+                                Spacer()
+
+                                Image(
+                                    systemName: viewModel.hasSelectedMapLocation
+                                    ? "checkmark.circle.fill"
+                                    : "mappin.circle"
+                                )
+                                .foregroundStyle(
+                                    viewModel.hasSelectedMapLocation
+                                    ? .green
+                                    : AppTheme.primary
+                                )
+                            }
+                        }
+                    } else {
+                        Text("Please select a campus location first.")
+                            .foregroundStyle(.secondary)
+                    }
+                }
 
                 Section {
                     Button {
                         
-                        _ = viewModel.submitReport(selectedUniversity: selectedUniversity, locations: locations)
+                        let didSave = viewModel.submitReport(selectedUniversity: selectedUniversity, locations: locations)
+                        
+                        if didSave {
+                            viewModel.clearForm(locations: locations)
+                            selectedTab = .home
+                        }
                     
                     } label: {
                         Text("Submit Report")
                             .fontWeight(.semibold)
                             .frame(maxWidth: .infinity)
                     }
+                    .disabled(!viewModel.hasSelectedMapLocation)
+                    .opacity(viewModel.hasSelectedMapLocation ? 1 : 0.5)
                 }
             }
             .navigationTitle("Add Report")
@@ -86,5 +146,6 @@ struct AddReportView: View {
 }
 
 #Preview {
-    AddReportView(viewModel: AddReportViewModel())
+    AddReportView(selectedTab: .constant(.add))
 }
+

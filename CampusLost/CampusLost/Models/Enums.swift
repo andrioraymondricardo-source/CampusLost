@@ -13,8 +13,6 @@ enum University: String, Codable, CaseIterable, Identifiable {
     case uts = "University of Technology Sydney"
     case usyd = "University of Sydney"
     case unsw = "University of New South Wales"
-    case uow = "University of Western Australia"
-    case mq = "University of Macquarie"
     
     //use raw string value as an ID
     var id: String { rawValue }

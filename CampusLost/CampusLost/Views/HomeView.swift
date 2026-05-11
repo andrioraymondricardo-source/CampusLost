@@ -19,67 +19,19 @@ import SwiftUI
 //}
 
 struct HomeView: View {
+    
+    @Binding var selectedTab: AppTab
 
     @StateObject private var filterViewModel = ItemFilterViewModel()
-    @State private var searchText = ""
-    @State private var selectedTypeFilter = "All"
-    @State private var selectedCategoryFilter = "All"
-
-    let items = [
-        LostFoundItem(
-            title: "AirPods Pro",
-            itemDescription: "White AirPods Pro case lost near the study area around 2PM.",
-            reportType: .lost,
-            category: .electronics,
-            university: .uts,
-            locationName: "UTS Library",
-            latitude: -33.88326180111422,
-            longitude: 151.20061189923524,
-            contact: "andrio@student.uts.edu.au",
-            createdByUserID: "UUID()"
-        ),
-        LostFoundItem(
-            title: "Student ID Card",
-            itemDescription: "Found student ID card near the entrance of Building 10.",
-            reportType: .found,
-            category: .cards,
-            university: .uts,
-            locationName: "Building 10",
-            latitude: -33.8846,
-            longitude: 151.2002,
-            contact: "campuslost@student.uts.edu.au",
-            createdByUserID: "UUID()"
-        ),
-        LostFoundItem(
-            title: "Apartment Key",
-            itemDescription: "Lost a small key set with a black keychain.",
-            reportType: .lost,
-            category: .keys,
-            university: .uts,
-            locationName: "Building 1",
-            latitude: -33.8836,
-            longitude: 151.2008,
-            contact: "student@example.com",
-            createdByUserID: "UUID()"
-        )
-    ]
-
-    var filteredItems: [LostFoundItem] {
-        items.filter { item in
-            let matchesStatus =
-            selectedTypeFilter == "All" || item.reportType.rawValue == selectedTypeFilter
-            
-            let matchesCategory =
-            selectedCategoryFilter == "All" || item.category.rawValue == selectedCategoryFilter
-
-            let matchesSearch =
-            searchText.isEmpty ||
-            item.title.localizedCaseInsensitiveContains(searchText) ||
-            item.category.rawValue.localizedCaseInsensitiveContains(searchText) ||
-            item.locationName.localizedCaseInsensitiveContains(searchText)
-
-            return matchesStatus && matchesSearch && matchesCategory
-        }
+    
+    @AppStorage("selectedUniversity") private var selectedUniversityRawData = University.uts.rawValue
+    
+    private var selectedUniversity: University {
+        University(rawValue: selectedUniversityRawData) ?? .uts
+    }
+    
+    private var filteredItems: [LostFoundItem] {
+        filterViewModel.filter(selectedUniversity: selectedUniversity)
     }
 
     var body: some View {
@@ -115,7 +67,7 @@ struct HomeView: View {
                             Image(systemName: "magnifyingglass")
                                 .foregroundStyle(.secondary)
 
-                            TextField("Search items", text: $searchText)
+                            TextField("Search items", text: $filterViewModel.searchText)
                         }
                         .padding()
                         .background(.white)
@@ -123,38 +75,125 @@ struct HomeView: View {
 
                         HStack(spacing: 12) {
                             Text("Status:")
-                            FilterTypeButton(title: "All", selectedTypeFilter: $selectedTypeFilter)
-                            ForEach(ReportType.allCases){reportType in
-                                    FilterTypeButton(title: reportType.rawValue, selectedTypeFilter: $selectedTypeFilter)
-                            }
+                            Button {
+                                   filterViewModel.selectedReportType = nil
+                               } label: {
+                                   Text("All")
+                                       .font(.subheadline)
+                                       .fontWeight(.semibold)
+                                       .padding(.horizontal, 16)
+                                       .padding(.vertical, 10)
+                                       .background(
+                                           filterViewModel.selectedReportType == nil
+                                           ? AppTheme.primary
+                                           : AppTheme.primary.opacity(0.15)
+                                       )
+                                       .foregroundStyle(
+                                           filterViewModel.selectedReportType == nil
+                                           ? .white
+                                           : AppTheme.primary
+                                       )
+                                       .cornerRadius(30)
+                               }
+
+                               ForEach(ReportType.allCases, id: \.self) { reportType in
+                                   Button {
+                                       filterViewModel.selectedReportType = reportType
+                                   } label: {
+                                       Text(reportType.rawValue)
+                                           .font(.subheadline)
+                                           .fontWeight(.semibold)
+                                           .padding(.horizontal, 16)
+                                           .padding(.vertical, 10)
+                                           .background(
+                                               filterViewModel.selectedReportType == reportType
+                                               ? AppTheme.primary
+                                               : AppTheme.primary.opacity(0.15)
+                                           )
+                                           .foregroundStyle(
+                                               filterViewModel.selectedReportType == reportType
+                                               ? .white
+                                               : AppTheme.primary
+                                           )
+                                           .cornerRadius(30)
+                                   }
+                               }
                         }
                         
                         HStack{
                             Text("Category:")
-                            ScrollView(.horizontal, showsIndicators: false)
-                            {
-                                HStack(spacing: 12) {
-                                    FilterCategoryButton(title: "All", selectedCategoryFilter: $selectedCategoryFilter)
-                                    ForEach(ItemCategory.allCases){reportType in
-                                        FilterCategoryButton(title: reportType.rawValue, selectedCategoryFilter: $selectedCategoryFilter)
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 12) {
+                                        Button {
+                                            filterViewModel.selectedCategory = nil
+                                        } label: {
+                                            Text("All")
+                                                .font(.subheadline)
+                                                .fontWeight(.semibold)
+                                                .padding(.horizontal, 16)
+                                                .padding(.vertical, 10)
+                                                .background(
+                                                    filterViewModel.selectedCategory == nil
+                                                    ? AppTheme.primary
+                                                    : AppTheme.primary.opacity(0.15)
+                                                )
+                                                .foregroundStyle(
+                                                    filterViewModel.selectedCategory == nil
+                                                    ? .white
+                                                    : AppTheme.primary
+                                                )
+                                                .cornerRadius(30)
+                                        }
+
+                                        ForEach(ItemCategory.allCases, id: \.self) { category in
+                                            Button {
+                                                filterViewModel.selectedCategory = category
+                                            } label: {
+                                                Text(category.rawValue)
+                                                    .font(.subheadline)
+                                                    .fontWeight(.semibold)
+                                                    .padding(.horizontal, 16)
+                                                    .padding(.vertical, 10)
+                                                    .background(
+                                                        filterViewModel.selectedCategory == category
+                                                        ? AppTheme.primary
+                                                        : AppTheme.primary.opacity(0.15)
+                                                    )
+                                                    .foregroundStyle(
+                                                        filterViewModel.selectedCategory == category
+                                                        ? .white
+                                                        : AppTheme.primary
+                                                    )
+                                                    .cornerRadius(30)
+                                            }
+                                        }
                                     }
                                 }
-                            }
                         }
 
                         VStack(spacing: 16) {
-                            ForEach(filteredItems, id: \.id) { item in
-                                NavigationLink {
-                                    ItemDetailView(item: item)
-                                } label: {
-                                    ItemRowView(
-                                        icon: item.category.iconName,
-                                        title: item.title,
-                                        subtitle: "\(item.reportType.rawValue) • \(item.category.rawValue)",
-                                        location: item.locationName
-                                    )
+                            
+                            if filteredItems.isEmpty {
+                                Text("No reports found.")
+                                    .foregroundStyle(.secondary)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(.white)
+                                    .cornerRadius(AppTheme.cornerRadius)
+                            } else {
+                                ForEach(filteredItems, id: \.id) { item in
+                                    NavigationLink {
+                                        ItemDetailView(item: item)
+                                    } label: {
+                                        ItemRowView(
+                                            icon: item.category.iconName,
+                                            title: item.title,
+                                            subtitle: "\(item.reportType.rawValue) • \(item.category.rawValue)",
+                                            location: item.locationName
+                                        )
+                                    }
+                                    .buttonStyle(.plain)
                                 }
-                                .buttonStyle(.plain)
                             }
                         }
                     }
@@ -162,67 +201,13 @@ struct HomeView: View {
                 }
             }
         }
-    }
-}
-
-struct FilterTypeButton: View {
-
-    let title: String
-    @Binding var selectedTypeFilter: String
-
-    var body: some View {
-        Button {
-            selectedTypeFilter = title
-        } label: {
-            Text(title)
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
-                .background(
-                    selectedTypeFilter == title
-                    ? AppTheme.primary
-                    : AppTheme.primary.opacity(0.15)
-                )
-                .foregroundStyle(
-                    selectedTypeFilter == title
-                    ? .white
-                    : AppTheme.primary
-                )
-                .cornerRadius(30)
+        .onAppear {
+            filterViewModel.loadItems()
         }
     }
 }
 
-struct FilterCategoryButton: View {
-
-    let title: String
-    @Binding var selectedCategoryFilter: String
-
-    var body: some View {
-        Button {
-            selectedCategoryFilter = title
-        } label: {
-            Text(title)
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
-                .background(
-                    selectedCategoryFilter == title
-                    ? AppTheme.primary
-                    : AppTheme.primary.opacity(0.15)
-                )
-                .foregroundStyle(
-                    selectedCategoryFilter == title
-                    ? .white
-                    : AppTheme.primary
-                )
-                .cornerRadius(30)
-        }
-    }
-}
 
 #Preview {
-    HomeView()
+    HomeView(selectedTab: .constant(.home))
 }

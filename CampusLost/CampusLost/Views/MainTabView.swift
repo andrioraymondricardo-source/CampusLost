@@ -8,31 +8,42 @@
 import SwiftUI
 
 struct MainTabView: View {
-
+    
+    @State private var selectedTab: AppTab = .home
+   
     var body: some View {
 
         TabView {
 
-            HomeView()
+            HomeView(selectedTab: $selectedTab)
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("Home")
                 }
+                .tag(AppTab.home)
 
-            AddReportView(viewModel: AddReportViewModel())
+            AddReportView(selectedTab: $selectedTab)
                 .tabItem {
                     Image(systemName: "plus.circle.fill")
                     Text("Add")
                 }
+                .tag (AppTab.add)
 
-            MapView()
+            MapView(selectedTab: $selectedTab)
                 .tabItem {
                     Image(systemName: "map.fill")
                     Text("Map")
                 }
+                .tag(AppTab.map)
         }
         .tint(AppTheme.primary)
     }
+}
+
+enum AppTab{
+    case home
+    case map
+    case add
 }
 
 #Preview {
