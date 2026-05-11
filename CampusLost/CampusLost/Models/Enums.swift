@@ -10,6 +10,7 @@ import Foundation
 //uni list selected by the user
 //raw string + storable (swift data) + uni.allcases available + for each usuable
 enum University: String, Codable, CaseIterable, Identifiable {
+
     case uts = "University of Technology Sydney"
     case usyd = "University of Sydney"
     case unsw = "University of New South Wales"
@@ -18,11 +19,12 @@ enum University: String, Codable, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
-//report for a lost or found?
+// identifies whether the item was lost or found
 enum ReportType: String, Codable, CaseIterable, Identifiable {
+
     case lost = "Lost"
     case found = "Found"
-    
+
     var id: String { rawValue }
 }
 
@@ -54,9 +56,9 @@ enum ItemCategory: String, Codable, CaseIterable, Identifiable {
 
 //current state of report
 //active = visible & resolved = hidden (maybe?)
-enum ReportStatus: String, Codable, CaseIterable, Identifiable {
-    case active = "Active"
-    case resolved = "Resolved"
-    
-    var id: String {rawValue}
-}
+    enum ReportStatus: String, Codable, CaseIterable, Identifiable {
+        case active = "Active"
+        case resolved = "Resolved"
+
+        var id: String { rawValue }
+    }
