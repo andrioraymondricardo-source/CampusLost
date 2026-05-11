@@ -8,7 +8,7 @@
 import Foundation
 
 //uni list selected by the user
-//raw string + storable (swift data) + uni.allcases available + for each usuable
+// Raw values are used for persistence and display. CaseIterable supports picker/filter lists.
 enum University: String, Codable, CaseIterable, Identifiable {
 
     case uts = "University of Technology Sydney"
@@ -55,7 +55,6 @@ enum ItemCategory: String, Codable, CaseIterable, Identifiable {
 }
 
 //current state of report
-//active = visible & resolved = hidden (maybe?)
     enum ReportStatus: String, Codable, CaseIterable, Identifiable {
         case active = "Active"
         case resolved = "Resolved"

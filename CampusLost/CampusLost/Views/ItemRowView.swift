@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//This is utilized in both HomeView and MapView to display a row/bar of report where some information is listed.
 struct ItemRowView: View {
 
     let icon: String

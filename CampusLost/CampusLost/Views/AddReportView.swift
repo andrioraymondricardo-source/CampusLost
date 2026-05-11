@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//THis is a page dedicated to adding new reports
 struct AddReportView: View {
     
     @StateObject var viewModel = AddReportViewModel()

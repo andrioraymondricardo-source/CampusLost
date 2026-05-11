@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+//A view model class utilized by the HomeView that needs to filter items
 final class ItemFilterViewModel: ObservableObject{
     
     @Published var searchText = ""

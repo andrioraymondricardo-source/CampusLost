@@ -9,12 +9,15 @@ import SwiftUI
 import MapKit
 import Combine
 
+//Due to complexity, modularity is implemented in this view file.
+//This view file consists of a map where reports are displayed. It also includes control to filter reports and a panel that list some details of all reports inside the region of what the user is seeing.
 struct MapView: View {
 
     @AppStorage("selectedUniversity") private var selectedUniversityRawValue: String = University.uts.rawValue
     
     @StateObject private var mapViewModel = MapViewModel()
     
+    //cameraPosition is a region shown on the map
     @State private var cameraPosition: MapCameraPosition = .region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(
@@ -28,6 +31,7 @@ struct MapView: View {
         )
     )
     
+    //visibleRegion is also the region shown on the map but this is utilized by the view model to identify visible items.
     @State private var visibleRegion = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
             latitude: 0,
@@ -47,10 +51,12 @@ struct MapView: View {
         CampusLocationData.locations(for: selectedUniversity)
     }
     
+    //All the LostFoundItems that goes on the map
     private var mapItems: [LostFoundItem] {
         mapViewModel.filteredItems(for: selectedUniversity)
     }
     
+    //A constantly varying array that only includes items visible on the user's current view
     private var visibleItems: [LostFoundItem] {
         mapViewModel.visibleItems(
             from: mapItems,
@@ -84,6 +90,7 @@ struct MapView: View {
         
         }
     
+    //This is the module that controls the underlaying map on this view.
     private var mapLayer: some View {
         Map(position: $cameraPosition){
             ForEach(mapItems){item in
@@ -108,10 +115,12 @@ struct MapView: View {
         .ignoresSafeArea(edges: .bottom)
     }
     
+    //A function to determine the icon used for each item.
     private func iconName(for category: ItemCategory) -> String {
         category.iconName
     }
     
+    //A function to set pins on the map.
     private func mapPin(for item: LostFoundItem) -> some View {
         VStack(spacing: 4){
             Image(systemName: iconName(for: item.category))
@@ -134,6 +143,7 @@ struct MapView: View {
         }
     }
     
+    //This is a place where filter controls go.
     private var topControls: some View{
         VStack(spacing: 10){
             buildingButtons
@@ -150,6 +160,7 @@ struct MapView: View {
         .background(.ultraThinMaterial)
     }
     
+    //Function for filtering building and map location
     private var buildingButtons: some View {
         HStack{
             Text("Location: ")
@@ -183,7 +194,8 @@ struct MapView: View {
             }
         }
     }
-
+    
+    //Function to filter the items by category.
     private var categoryButtons: some View {
         HStack{
             Text("Category:")
@@ -214,6 +226,7 @@ struct MapView: View {
         }
     }
     
+    //Function to filter the items by report type.
     private var typeButtons: some View {
         HStack{
             Text("Report Type:")
@@ -244,6 +257,7 @@ struct MapView: View {
         }
     }
     
+    //Function to filter the items by report status.
     private var statusButtons: some View {
         HStack{
             Text("Status:")

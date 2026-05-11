@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//A theme followed by the whole development
 struct AppTheme {
 
     static let primary = Color.blue

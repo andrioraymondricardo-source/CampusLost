@@ -6,6 +6,7 @@
 //
 import Foundation
 
+//A class to manipulate the UserDefaults that stored a list of Lost/Found Items
 final class LostFoundStorageManager {
     private let storageKey = "lostFoundItems"
     

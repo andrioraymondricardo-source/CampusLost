@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//This is a page where user can filter and go through a list of all reports.
 struct HomeView: View {
 
     @StateObject private var filterViewModel = ItemFilterViewModel()

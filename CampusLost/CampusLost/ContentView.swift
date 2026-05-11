@@ -13,6 +13,7 @@ struct ContentView: View {
     @State private var hasSelectedSessionUniversity = false
 
     var body: some View {
+        //MainTabView is only accessible when the user has pick out a university for the session.
         if !hasSelectedSessionUniversity {
             OnBoardingView(hasSelectedSessionUniversity: $hasSelectedSessionUniversity)
         } else {

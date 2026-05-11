@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//This is a way to link all three main views with a tab style like in modern apps.
 struct MainTabView: View {
    
     var body: some View {

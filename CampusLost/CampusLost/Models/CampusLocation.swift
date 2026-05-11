@@ -7,9 +7,7 @@
 
 import Foundation
 
-//predefined campus locattion -> havent looked at Mapkit yet. initial step only. whoever does mapkit import, prolly needs this
-//Hein said there is an API for this? let's see
-
+// Represents a predefined campus location used for map navigation and report placement.
 struct CampusLocation: Identifiable, Hashable {
     //ID for lists and map
     let id = UUID()
@@ -20,7 +18,7 @@ struct CampusLocation: Identifiable, Hashable {
     //display name
     let name: String
     
-    //coordinates? idk if we need this
+    //Coordinates used by MapKit for map centering and report pins.
     let latitude: Double
     let longitude: Double
 }

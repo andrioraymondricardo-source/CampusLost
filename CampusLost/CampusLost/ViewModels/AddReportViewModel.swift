@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+//A view model class for AddReportView page
 final class AddReportViewModel: ObservableObject {
 
     @Published  var title = ""

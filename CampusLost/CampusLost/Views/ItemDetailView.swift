@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//This is a page that details all information of a certain report.
 struct ItemDetailView: View {
 
     let item: LostFoundItem

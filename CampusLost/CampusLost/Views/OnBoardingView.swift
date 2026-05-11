@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//This is the first screen the user will encountered where they have to choose a university for this singular session.
 struct OnBoardingView: View {
     @Binding var hasSelectedSessionUniversity:Bool
 

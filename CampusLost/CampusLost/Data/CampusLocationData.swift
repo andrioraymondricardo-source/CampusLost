@@ -8,7 +8,6 @@
 import Foundation
 
 // campus locations for each university
-// replaces GPS-based input for the MVP
 struct CampusLocationData {
     
     static let locations: [CampusLocation] = [

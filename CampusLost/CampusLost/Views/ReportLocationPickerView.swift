@@ -7,6 +7,7 @@
 import SwiftUI
 import MapKit
 
+//This view is specifically called by the AddReportView to pick out a certain latitude and longitude for an item when adding reports.
 struct ReportLocationPickerView: View {
     @Environment(\.dismiss) private var dismiss
 

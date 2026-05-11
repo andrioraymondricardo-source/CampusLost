@@ -9,6 +9,7 @@ import Foundation
 import MapKit
 import Combine
 
+//A view model class used by MapView
 final class MapViewModel: ObservableObject {
     
     @Published private(set) var items: [LostFoundItem] = []
@@ -37,6 +38,7 @@ final class MapViewModel: ObservableObject {
         }
     }
     
+    //This function will only return items that are visible on the screen
     func visibleItems(
         from items: [LostFoundItem],
         in region: MKCoordinateRegion
@@ -49,6 +51,7 @@ final class MapViewModel: ObservableObject {
         }
     }
     
+    //This function will return a MKCoordinateRegion that is visible on the user's screen
     func region(for location: CampusLocation, spanDelta: Double) -> MKCoordinateRegion {
         return MKCoordinateRegion(
             center: CLLocationCoordinate2D(
@@ -62,6 +65,7 @@ final class MapViewModel: ObservableObject {
         )
     }
     
+    //This function is called when the main campus is selected in each map view.
     func selectMainCampus(from locations: [CampusLocation]) -> MKCoordinateRegion? {
         guard let mainCampus = locations.first else {
             return nil
@@ -72,6 +76,7 @@ final class MapViewModel: ObservableObject {
         return region(for: mainCampus, spanDelta: mainCampusSpan)
     }
     
+    //This function is called when separate buildings are selected in each map view. The spanDelta for these two functions are different.
     func selectBuilding(_ location: CampusLocation) -> MKCoordinateRegion {
         selectedBuilding = location.name
         
@@ -79,7 +84,8 @@ final class MapViewModel: ObservableObject {
     }
     
 }
-    
+
+//This is an extension to the built-in MKCoordinateRegion to include a function called contains that check whether a certain latitude and longitude are included in a certain region.
 extension MKCoordinateRegion{
     func contains(latitude: Double, longitude: Double) -> Bool {
         let minLatitude = center.latitude - span.latitudeDelta/2
