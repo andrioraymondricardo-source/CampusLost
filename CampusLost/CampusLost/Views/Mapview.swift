@@ -31,6 +31,8 @@ struct MapView: View {
         )
     )
     
+    @State private var refreshTrigger = UUID()
+    
     //visibleRegion is also the region shown on the map but this is utilized by the view model to identify visible items.
     @State private var visibleRegion = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
@@ -102,7 +104,7 @@ struct MapView: View {
                     )
                 ){
                     NavigationLink{
-                        ItemDetailView(item: item)
+                        ItemDetailView(item: item, refreshTrigger: $refreshTrigger)
                     }label: {
                         mapPin(for: item)
                     }
@@ -332,7 +334,7 @@ struct MapView: View {
                     VStack(spacing: 10) {
                         ForEach(visibleItems) { item in
                             NavigationLink {
-                                ItemDetailView(item: item)
+                                ItemDetailView(item: item, refreshTrigger: $refreshTrigger)
                             } label: {
                                 HStack(spacing: 12) {
                                     Image(systemName:  item.category.iconName)

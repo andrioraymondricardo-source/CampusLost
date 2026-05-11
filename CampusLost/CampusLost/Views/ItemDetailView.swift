@@ -11,7 +11,11 @@ import SwiftUI
 struct ItemDetailView: View {
 
     let item: LostFoundItem
-
+    
+    @Binding var refreshTrigger: UUID
+    
+    @State private var resolvedAlert = false
+    
     var body: some View {
 
         ScrollView {
@@ -68,10 +72,22 @@ struct ItemDetailView: View {
                             updatedItem: item,
                             rStatus: .resolved
                         )
+                        refreshTrigger = UUID()
+                        resolvedAlert = true
                     }
                     .fontWeight(.semibold)
+                    .onChange(of: resolvedAlert){
+                        if item.status == .resolved {
+                            
+                        }
+                    }
                 }
             }
+        }
+        .alert("Report marked as resolved", isPresented: $resolvedAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Your report has been resolved.")
         }
         
     }
@@ -113,6 +129,7 @@ struct DetailCard: View {
             latitude: -33.88326180111422,
             longitude: 151.20061189923524,
             contact: "andrio@student.uts.edu.au",
-            createdByUserID: "preview-user")
+            createdByUserID: "preview-user"),
+        refreshTrigger: .constant(UUID())
     )
 }

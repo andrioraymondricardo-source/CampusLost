@@ -14,6 +14,8 @@ struct HomeView: View {
     
     @AppStorage("selectedUniversity") private var selectedUniversityRawData = University.uts.rawValue
     
+    @State private var refreshTrigger = UUID()
+    
     private var selectedUniversity: University {
         University(rawValue: selectedUniversityRawData) ?? .uts
     }
@@ -218,7 +220,7 @@ struct HomeView: View {
                             } else {
                                 ForEach(filteredItems, id: \.id) { item in
                                     NavigationLink {
-                                        ItemDetailView(item: item)
+                                        ItemDetailView(item: item, refreshTrigger: $refreshTrigger)
                                     } label: {
                                         ItemRowView(
                                             icon: item.category.iconName,
@@ -237,6 +239,9 @@ struct HomeView: View {
             }
         }
         .onAppear {
+            filterViewModel.loadItems()
+        }
+        .onChange(of: refreshTrigger){_, _ in
             filterViewModel.loadItems()
         }
     }
