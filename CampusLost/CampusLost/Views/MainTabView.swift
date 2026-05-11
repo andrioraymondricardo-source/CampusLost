@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainTabView: View {
-
+   
     var body: some View {
 
         TabView {
@@ -33,6 +33,12 @@ struct MainTabView: View {
         }
         .tint(AppTheme.primary)
     }
+}
+
+enum AppTab{
+    case home
+    case map
+    case add
 }
 
 #Preview {

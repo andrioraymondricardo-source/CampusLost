@@ -10,9 +10,6 @@ import SwiftData
 
 struct ItemDetailView: View {
 
-    // allows this view to update the selected report status
-    @Environment(\.modelContext) private var modelContext
-
     let item: LostFoundItem
 
     var body: some View {
@@ -23,7 +20,7 @@ struct ItemDetailView: View {
 
                 VStack(spacing: 16) {
 
-                    Image(systemName: iconForCategory(item.category))
+                    Image(systemName: item.category.iconName)
                         .font(.system(size: 50))
                         .foregroundStyle(AppTheme.primary)
                         .frame(width: 120, height: 120)
@@ -64,49 +61,20 @@ struct ItemDetailView: View {
         .background(AppTheme.background)
         .navigationTitle("Item Details")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
+        .toolbar{
             ToolbarItem(placement: .topBarTrailing) {
-
                 if item.status == .active {
                     Button("Resolve") {
-                        item.status = .resolved
-                        try? modelContext.save()
+                        LostFoundStorageManager().updateItemStatus(
+                            updatedItem: item,
+                            rStatus: .resolved
+                        )
                     }
                     .fontWeight(.semibold)
                 }
             }
         }
-    }
-
-    // chooses an icon based on the item category
-    func iconForCategory(_ category: ItemCategory) -> String {
-
-        switch category {
-
-        case .electronics:
-            return "headphones"
-
-        case .cards:
-            return "wallet.pass"
-
-        case .clothing:
-            return "tshirt"
-
-        case .books:
-            return "book.closed"
-
-        case .bottles:
-            return "waterbottle"
-
-        case .keys:
-            return "key.fill"
-
-        case .bags:
-            return "bag.fill"
-
-        case .other:
-            return "questionmark.circle"
-        }
+        
     }
 }
 

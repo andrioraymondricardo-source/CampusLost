@@ -13,9 +13,9 @@ enum University: String, Codable, CaseIterable, Identifiable {
 
     case uts = "University of Technology Sydney"
     case usyd = "University of Sydney"
-    case unsw = "UNSW Sydney"
-    case other = "Other"
-
+    case unsw = "University of New South Wales"
+    
+    //use raw string value as an ID
     var id: String { rawValue }
 }
 
@@ -30,18 +30,29 @@ enum ReportType: String, Codable, CaseIterable, Identifiable {
 
 //item categories selected for reports
 //for easier filtering and searching
-    enum ItemCategory: String, Codable, CaseIterable, Identifiable {
-        case electronics = "Electronics"
-        case cards = "Cards/ID"
-        case clothing = "Clothing"
-        case books = "Books/Stationery"
-        case bottles = "Bottles"
-        case keys = "Keys"
-        case bags = "Bags"
-        case other = "Other"
-
-        var id: String { rawValue }
+enum ItemCategory: String, Codable, CaseIterable, Identifiable {
+    case electronics = "Electronics"
+    case cards = "Cards"
+    case clothing = "Clothing"
+    case books = "Books"
+    case keys = "Keys"
+    case bags = "Bags"
+    case other = "Other"
+    
+    var id: String {rawValue}
+    
+    var iconName: String{
+        switch self{
+        case .electronics: return "laptopcomputer"
+        case .cards: return "person.text.rectangle"
+        case .clothing: return "tshirt"
+        case .books: return "book"
+        case .keys: return "key"
+        case .bags: return "bag"
+        case .other: return "questionmark.circle"
+        }
     }
+}
 
 //current state of report
 //active = visible & resolved = hidden (maybe?)

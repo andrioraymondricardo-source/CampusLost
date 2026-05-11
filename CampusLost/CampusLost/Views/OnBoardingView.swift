@@ -8,16 +8,13 @@
 import SwiftUI
 
 struct OnBoardingView: View {
+    @Binding var hasSelectedSessionUniversity:Bool
 
     @AppStorage("selectedUniversity") private var selectedUniversity: String = ""
 
-    @State private var chosenUniversity = "University of Technology Sydney"
+    @State private var chosenUniversity = University.uts.rawValue
 
-    let universities = [
-        "University of Technology Sydney",
-        "University of Sydney",
-        "UNSW Sydney"
-    ]
+    let universities = University.allCases
 
     var body: some View {
 
@@ -56,7 +53,8 @@ struct OnBoardingView: View {
 
                     Picker("University", selection: $chosenUniversity) {
                         ForEach(universities, id: \.self) { university in
-                            Text(university)
+                            Text(university.rawValue)
+                                .tag(university.rawValue)
                         }
                     }
                     .pickerStyle(.menu)
@@ -67,7 +65,8 @@ struct OnBoardingView: View {
                 }
 
                 Button {
-                    selectedUniversity = chosenUniversity
+                        selectedUniversity = chosenUniversity
+                        hasSelectedSessionUniversity = true
                 } label: {
                     Text("Continue")
                         .fontWeight(.semibold)
@@ -86,5 +85,5 @@ struct OnBoardingView: View {
 }
 
 #Preview {
-    OnBoardingView()
+    OnBoardingView(hasSelectedSessionUniversity: .constant(false))
 }

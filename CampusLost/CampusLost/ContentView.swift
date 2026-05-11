@@ -10,10 +10,11 @@ import SwiftUI
 struct ContentView: View {
 
     @AppStorage("selectedUniversity") private var selectedUniversity: String = ""
+    @State private var hasSelectedSessionUniversity = false
 
     var body: some View {
-        if selectedUniversity.isEmpty {
-            OnBoardingView()
+        if !hasSelectedSessionUniversity {
+            OnBoardingView(hasSelectedSessionUniversity: $hasSelectedSessionUniversity)
         } else {
             MainTabView()
         }
