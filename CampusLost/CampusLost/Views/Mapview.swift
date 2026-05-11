@@ -216,7 +216,7 @@ struct MapView: View {
     
     private var typeButtons: some View {
         HStack{
-            Text("Category:")
+            Text("Report Type:")
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10) {
                     Button {
@@ -264,7 +264,8 @@ struct MapView: View {
             }
         }
     }
-
+    
+    //This function highlights selected filter
     private func filterChip(
         title: String,
         isSelected: Bool
@@ -288,6 +289,7 @@ struct MapView: View {
             .shadow(radius: 1)
     }
 
+    //This is a panel that only lists the visible items on the screen.
     private var visibleItemsPanel: some View {
         VStack(alignment: .leading, spacing: 12) {
             Capsule()
