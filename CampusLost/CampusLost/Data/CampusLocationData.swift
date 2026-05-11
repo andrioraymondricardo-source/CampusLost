@@ -22,22 +22,22 @@ struct CampusLocationData {
                 CampusLocation(
                     university: .uts,
                     name: "Building 1 - UTS Tower",
-                    latitude: -33.88338195060804,
-                    longitude: 151.20095393558245
+                    latitude: -33.883305,
+                    longitude: 151.200859
                 ),
 
                 CampusLocation(
                     university: .uts,
                     name: "Building 2 - UTS Central",
-                    latitude: -33.883207957760646,
-                    longitude:  151.2001882225693
+                    latitude: -33.883839,
+                    longitude:  151.200092
                 ),
 
                 CampusLocation(
                     university: .uts,
                     name: "UTS Library",
-                    latitude: -33.88313670317941,
-                    longitude: 151.20023113790978
+                    latitude: -33.883885,
+                    longitude:  151.200274
                 ),
 
                 CampusLocation(
@@ -57,50 +57,50 @@ struct CampusLocationData {
                 CampusLocation(
                     university: .uts,
                     name: "Building 5 - Haymarket",
-                    latitude: -33.8798,
-                    longitude: 151.2022
+                    latitude: -33.879884,
+                    longitude: 151.202168
                 ),
 
                 CampusLocation(
                     university: .uts,
                     name: "Building 6 - Design, Architecture and Building",
-                    latitude: -33.88244435170691,
-                    longitude: 151.2019420918879
+                    latitude: -33.883497,
+                    longitude: 151.202128
                 ),
 
                 CampusLocation(
                     university: .uts,
                     name: "Building 7",
-                    latitude: -33.88201323360388,
-                    longitude: 151.20048152199544
+                    latitude: -33.883313,
+                    longitude: 151.200858
                 ),
 
                 CampusLocation(
                     university: .uts,
                     name: "Building 8 - Dr Chau Chak Wing Building",
-                    latitude: -33.88034684491935,
-                    longitude: 151.20152940660518
+                    latitude: -33.880831,
+                    longitude: 151.201220
                 ),
 
                 CampusLocation(
                     university: .uts,
                     name: "Building 10",
-                    latitude: -33.882872782244114,
-                    longitude: 151.19904299927165
+                    latitude: -33.883456,
+                    longitude: 151.199057
                 ),
 
                 CampusLocation(
                     university: .uts,
                     name: "Building 11 - Engineering and IT",
-                    latitude: -33.883586822042545,
-                    longitude: 151.1993970146125
+                    latitude: -33.884080,
+                    longitude: 151.199180
                 ),
 
                 CampusLocation(
                     university: .uts,
                     name: "Alumni Green",
-                    latitude: -33.88310370447367,
-                    longitude: 151.20020613742832
+                    latitude: -33.883146,
+                    longitude: 151.200505
                 ),
         
                 CampusLocation(

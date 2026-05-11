@@ -13,6 +13,7 @@ final class MapViewModel: ObservableObject {
     
     @Published private(set) var items: [LostFoundItem] = []
     @Published var selectedCategory: ItemCategory? = nil
+    @Published var selectedType: ReportType? = nil
     @Published var selectedBuilding: String = "Main Campus"
     @Published var selectedStatus: ReportStatus = .active
     
@@ -30,8 +31,9 @@ final class MapViewModel: ObservableObject {
             let matchesUniversity = item.university == university
             let matchesStatus = item.status == selectedStatus
             let matchesCategory = selectedCategory == nil || item.category == selectedCategory
+            let matchesType = selectedType == nil || selectedType == item.reportType
             
-            return matchesUniversity && matchesStatus && matchesCategory
+            return matchesUniversity && matchesStatus && matchesCategory && matchesType
         }
     }
     

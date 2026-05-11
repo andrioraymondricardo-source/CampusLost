@@ -140,6 +140,8 @@ struct MapView: View {
             
             categoryButtons
             
+            typeButtons
+            
             statusButtons
         }
         .padding(.top, -40)
@@ -203,6 +205,36 @@ struct MapView: View {
                             filterChip(
                                 title: category.rawValue,
                                 isSelected: mapViewModel.selectedCategory == category
+                            )
+                        }
+                    }
+                }
+                .padding(.horizontal, 4)
+            }
+        }
+    }
+    
+    private var typeButtons: some View {
+        HStack{
+            Text("Category:")
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    Button {
+                        mapViewModel.selectedType = nil
+                    } label: {
+                        filterChip(
+                            title: "All",
+                            isSelected: mapViewModel.selectedType == nil
+                        )
+                    }
+                    
+                    ForEach(ReportType.allCases, id: \.self) { reportType in
+                        Button {
+                            mapViewModel.selectedType = reportType
+                        } label: {
+                            filterChip(
+                                title: reportType.rawValue,
+                                isSelected: mapViewModel.selectedType == reportType
                             )
                         }
                     }

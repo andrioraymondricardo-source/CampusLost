@@ -50,10 +50,4 @@ final class LostFoundStorageManager {
         saveItems(items)
     }
     
-    func deleteItem(_ item: LostFoundItem){
-        var items = loadItems()
-        items.removeAll{$0.id == item.id}
-        saveItems(items)
-    }
-    
 }
