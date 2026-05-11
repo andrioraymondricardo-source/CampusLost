@@ -17,7 +17,7 @@ final class MapViewModel: ObservableObject {
     @Published var selectedBuilding: String = "Main Campus"
     @Published var selectedStatus: ReportStatus = .active
     
-    private let mainCampusSpan: Double = 0.003
+    private let mainCampusSpan: Double = 0.018
     private let buildingSpan: Double = 0.001
     
     private let storageManager = LostFoundStorageManager()
