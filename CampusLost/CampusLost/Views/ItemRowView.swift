@@ -29,10 +29,11 @@ struct ItemRowView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(title)
                     .font(.headline)
+                    .foregroundStyle(AppTheme.primary)
 
                 Text(subtitle)
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppTheme.primary)
 
                 Label(location, systemImage: "mappin.and.ellipse")
                     .font(.caption)

@@ -217,6 +217,7 @@ struct HomeView: View {
                                     .padding()
                                     .background(.white)
                                     .cornerRadius(AppTheme.cornerRadius)
+                                    .foregroundStyle(AppTheme.primary) 
                             } else {
                                 ForEach(filteredItems, id: \.id) { item in
                                     NavigationLink {

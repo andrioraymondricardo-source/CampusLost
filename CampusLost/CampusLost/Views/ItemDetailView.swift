@@ -104,9 +104,10 @@ struct DetailCard: View {
 
             Text(title)
                 .font(.headline)
+                .foregroundStyle(AppTheme.primary)
 
             Text(content)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppTheme.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
