@@ -55,9 +55,9 @@ enum ItemCategory: String, Codable, CaseIterable, Identifiable {
 }
 
 //current state of report
-    enum ReportStatus: String, Codable, CaseIterable, Identifiable {
-        case active = "Active"
-        case resolved = "Resolved"
+enum ReportStatus: String, Codable, CaseIterable, Identifiable {
+    case active = "Active"
+    case resolved = "Resolved"
 
-        var id: String { rawValue }
-    }
+    var id: String { rawValue }
+}
