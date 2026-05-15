@@ -34,4 +34,6 @@ When the app is first ran, there will be no data in this app since no report has
 - Not only this, the user can also switch to the map tab and see all added reports on the map with their precise location. The user can also filter reports on this page.
 - If the user does not see any items on the map or in the "Items in this area" list even after adding reports, the user is recommneded to switch map regions either through Location buttons on the top of the screen or by manually sliding throughout the map.
     - Note: The items only visible in the user's screen will appear in the "Items in this area" panel. If any report is out of the view of the user's screen, this item will NOT appear in the list.
+- In both the home tab and the map tab, the user could press each items and check all details regarding this item.
+- When the user has already received/return the lost/found item, the user can resolved the report through the item detail screen and the report will no longer be active.
 
