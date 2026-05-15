@@ -36,12 +36,6 @@ struct MainTabView: View {
     }
 }
 
-enum AppTab{
-    case home
-    case map
-    case add
-}
-
 #Preview {
     MainTabView()
 }

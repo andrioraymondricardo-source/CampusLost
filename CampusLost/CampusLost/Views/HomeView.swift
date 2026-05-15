@@ -53,9 +53,10 @@ struct HomeView: View {
 
                     HStack {
                         Image(systemName: "magnifyingglass")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(AppTheme.primary)
 
                         TextField("Search items", text: $filterViewModel.searchText)
+                            .foregroundStyle(AppTheme.primary)
                     }
                     .padding()
                     .background(.white)
