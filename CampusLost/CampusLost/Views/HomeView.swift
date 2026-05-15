@@ -55,7 +55,11 @@ struct HomeView: View {
                         Image(systemName: "magnifyingglass")
                             .foregroundStyle(AppTheme.primary)
 
-                        TextField("Search items", text: $filterViewModel.searchText)
+                        TextField("",
+                                  text: $filterViewModel.searchText,
+                                  prompt: Text("Search items")
+                            .foregroundStyle(AppTheme.primary.opacity(0.5))
+                        )
                             .foregroundStyle(AppTheme.primary)
                     }
                     .padding()

@@ -74,7 +74,7 @@ struct ReportLocationPickerView: View {
 
                     Text("Move the map until the pin is above the correct spot, then tap Use This Location.")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppTheme.secondary)
 
                     Button {
                         viewModel.setPinnedLocation(

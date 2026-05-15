@@ -345,18 +345,18 @@ struct MapView: View {
                                         Text(item.title)
                                             .font(.subheadline)
                                             .fontWeight(.semibold)
-                                            .foregroundStyle(.primary)
+                                            .foregroundStyle(AppTheme.primary)
 
                                         Text("\(item.reportType.rawValue) • \(item.category.rawValue)")
                                             .font(.caption)
-                                            .foregroundStyle(.secondary)
+                                            .foregroundStyle(AppTheme.secondary)
                                     }
 
                                     Spacer()
 
                                     Text(item.locationName)
                                         .font(.caption2)
-                                        .foregroundStyle(.secondary)
+                                        .foregroundStyle(AppTheme.secondary)
                                 }
                                 .padding()
                                 .background(Color.white)

@@ -103,7 +103,7 @@ final class AddReportViewModel: ObservableObject {
         title = ""
         reportType = ReportType.lost
         category = ItemCategory.electronics
-        location = locations[0].name
+        location = locations.first?.name ?? ""
         description = ""
         contact = ""
         selectedLatitude = nil
@@ -112,7 +112,7 @@ final class AddReportViewModel: ObservableObject {
     
     func fillLocation(locations: [CampusLocation]){
         if location.isEmpty {
-            location = locations[0].name
+            location = locations.first?.name ?? ""
         }
         
     }

@@ -30,7 +30,7 @@ struct LostFoundItem : Identifiable, Codable, Equatable {
     var latitude: Double
     var longitude: Double
     
-    //report data (can call it metadata? maybe)
+    //Meta data for report creation and contact.
     var dateReported: Date
     var contact: String
     
